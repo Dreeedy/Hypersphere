@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,6 +45,10 @@ namespace Hypersphere
             keyboardHookManager.RegisterHotkey(ModifierKeys.Control, 0x2C, () =>
             {
                 Debug.WriteLine("Ctrl+Print Screen detected");
+                keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer("A:\\myScreenshots\\",
+                    "myImage",
+                    System.Drawing.Imaging.ImageFormat.Png));
+                keyboardHookManager.NotityScreenPhotographer();
             });
 
         }

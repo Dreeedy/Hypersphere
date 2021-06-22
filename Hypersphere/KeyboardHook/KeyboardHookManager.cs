@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Hypersphere
 {
-    internal struct KeyboardParams
+        internal struct KeyboardParams
     {
         public IntPtr wParam;
         public int vkCode;
@@ -24,7 +24,7 @@ namespace Hypersphere
     /// pre-registered hotkeys, i.e. not invading a user's privacy.
     /// </summary>
     public class KeyboardHookManager
-    {
+    {    
         #region Private Attributes
         /// <summary>
         /// Keeps track of all registered hotkeys
@@ -42,6 +42,8 @@ namespace Hypersphere
         private readonly object _modifiersLock = new object();
         private LowLevelKeyboardProc _hook;
         private bool _isStarted;
+
+        IScreenPhotographer screenPhotographer;
         #endregion
 
         #region Constructors
@@ -183,6 +185,19 @@ namespace Hypersphere
             {
                 throw new HotkeyNotRegisteredException();
             }   
+        }
+
+        public void SetScreenPhotographer(IScreenPhotographer sp)
+        {
+            if (screenPhotographer == null)
+            {
+                this.screenPhotographer = sp;
+            }            
+        }
+
+        public void NotityScreenPhotographer()
+        {
+            screenPhotographer.KeyCombinationPressed();
         }
         #endregion
 
