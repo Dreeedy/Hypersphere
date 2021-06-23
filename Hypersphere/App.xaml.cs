@@ -31,6 +31,9 @@ namespace Hypersphere
             keyboardHookManager.Start();
 
             RegisterHotkeyAsync();
+
+            TestInvisibleWindow testInvisibleWindow = new TestInvisibleWindow();
+            testInvisibleWindow.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
