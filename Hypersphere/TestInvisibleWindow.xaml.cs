@@ -38,7 +38,7 @@ namespace Hypersphere
             Canvas.SetLeft(whiteBox, 100);
             Canvas.SetTop(whiteBox, 100);
 
-            whiteBox.PreviewMouseDown += WhiteBox_PreviewMouseDown;
+            whiteBox.mainGrid.PreviewMouseDown += WhiteBox_PreviewMouseDown;
 
             mainCanvas.Children.Clear();
             mainCanvas.Children.Add(whiteBox);
@@ -46,7 +46,8 @@ namespace Hypersphere
 
         private void WhiteBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.dragObject = sender as UIElement;
+            this.dragObject = whiteBox as UIElement;// чтобы нельзя было перемещать выделенную область за элементы управления (resize и тд)
+
             this.offset = e.GetPosition(this.mainCanvas);
             this.offset.Y -= Canvas.GetTop(this.dragObject);
             this.offset.X -= Canvas.GetLeft(this.dragObject);
