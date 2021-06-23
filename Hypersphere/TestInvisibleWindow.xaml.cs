@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,10 @@ namespace Hypersphere
     /// </summary>
     public partial class TestInvisibleWindow : Window
     {
+        UIElement dragObject;
+        Point offset;
+        WhiteBox whiteBox;
+
         public TestInvisibleWindow()
         {
             InitializeComponent();
@@ -27,7 +32,7 @@ namespace Hypersphere
 
         private void mainCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            WhiteBox whiteBox = new WhiteBox();
+            whiteBox = new WhiteBox();
             whiteBox.Height = 600;
             whiteBox.Width = 600;
             Canvas.SetLeft(whiteBox, 100);
@@ -37,10 +42,7 @@ namespace Hypersphere
 
             mainCanvas.Children.Clear();
             mainCanvas.Children.Add(whiteBox);
-        }
-
-        UIElement dragObject;
-        Point offset;
+        }        
 
         private void WhiteBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -57,15 +59,35 @@ namespace Hypersphere
             {
                 return;
             }
-            var position = e.GetPosition(sender as IInputElement);
-            Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
-            Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
-        }
+
+            Point position = e.GetPosition(sender as IInputElement);
+
+            MoveVertically(position, sender, e);
+            MoveHorizontally(position, sender, e);
+        }       
 
         private void mainCanvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             this.dragObject = null;
             this.mainCanvas.ReleaseMouseCapture();
-        }        
+        }
+
+        private void MoveVertically(Point position, object sender, MouseEventArgs e)
+        {
+            if (position.Y - this.offset.Y >= 0 &&
+                position.Y - this.offset.Y + whiteBox.ActualHeight <= mainCanvas.ActualHeight)// ограничивает движение по вертикали
+            {
+                Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
+            }
+        }
+
+        private void MoveHorizontally(Point position, object sender, MouseEventArgs e)
+        {
+            if (position.X - this.offset.X >= 0 &&
+                position.X - this.offset.X + whiteBox.ActualWidth <= mainCanvas.ActualWidth)// ограничивает движение по горозонтали
+            {
+                Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
+            }
+        }
     }
 }
