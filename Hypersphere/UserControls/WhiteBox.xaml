@@ -10,21 +10,22 @@
 
     <Grid>        
         <Grid.RowDefinitions>
-            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="9"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="9"></RowDefinition>
         </Grid.RowDefinitions> 
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0"></Button>
+            <Rectangle Grid.Column="0"
+                       x:Name="northwestElement" Fill="Red"></Rectangle>
             <Border Grid.Column="1"
                     Height="1"
                     BorderBrush="White"
@@ -40,15 +41,15 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="3"></RowDefinition>
+                    <RowDefinition Height="9"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -72,7 +73,7 @@
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="3"></RowDefinition>
+                    <RowDefinition Height="9"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -91,11 +92,11 @@
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
             </Grid.ColumnDefinitions>          
             
             <Button Grid.Column="0"></Button>
