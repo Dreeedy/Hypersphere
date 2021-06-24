@@ -23,7 +23,7 @@ namespace Hypersphere
     {
         UIElement dragObject;
         Point offset;
-        WhiteBox whiteBox;
+        WhiteBox whiteBox;       
 
         public TestInvisibleWindow()
         {
@@ -32,6 +32,8 @@ namespace Hypersphere
 
         private void mainCanvas_Loaded(object sender, RoutedEventArgs e)
         {
+            // tblock.SetValue(Grid.RowProperty, 4);
+            // Brushes.Transparent
             whiteBox = new WhiteBox();
             whiteBox.Height = 600;
             whiteBox.Width = 600;
@@ -40,7 +42,7 @@ namespace Hypersphere
 
             whiteBox.mainGrid.PreviewMouseDown += WhiteBox_PreviewMouseDown;
 
-            mainCanvas.Children.Clear();
+            //mainCanvas.Children.Clear();
             mainCanvas.Children.Add(whiteBox);
         }        
 
@@ -78,6 +80,9 @@ namespace Hypersphere
             if (position.Y - this.offset.Y >= 0 &&
                 position.Y - this.offset.Y + whiteBox.ActualHeight <= mainCanvas.ActualHeight)// ограничивает движение по вертикали
             {
+                topBorder.Height = position.Y - this.offset.Y;
+                bottomBorder.Height = mainCanvas.ActualHeight - topBorder.Height - whiteBox.ActualHeight;
+
                 Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
             }
         }
@@ -87,6 +92,14 @@ namespace Hypersphere
             if (position.X - this.offset.X >= 0 &&
                 position.X - this.offset.X + whiteBox.ActualWidth <= mainCanvas.ActualWidth)// ограничивает движение по горозонтали
             {
+                leftBorder.Width = position.X - this.offset.X;
+                Canvas.SetTop(leftBorder, topBorder.Height);
+                leftBorder.Height = whiteBox.ActualHeight;
+
+                rigthBorder.Width = mainCanvas.ActualWidth - leftBorder.Width - whiteBox.ActualWidth;
+                Canvas.SetTop(rigthBorder, topBorder.Height);
+                rigthBorder.Height = whiteBox.ActualHeight;
+
                 Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
             }
         }

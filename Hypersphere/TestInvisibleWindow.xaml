@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Hypersphere"
         mc:Ignorable="d"
         Title="TestInvisibleWindow"
-        Height="450"
-        Width="800"
+        Height="1080"
+        Width="1920"
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -16,11 +16,43 @@
         Background="Transparent">
     <Grid>
         <Canvas x:Name="mainCanvas"
-                Background="Transparent"                
-                Loaded="mainCanvas_Loaded"                
+                Background="Transparent"
+                Loaded="mainCanvas_Loaded"
                 PreviewMouseUp="mainCanvas_PreviewMouseUp"
                 PreviewMouseMove="mainCanvas_PreviewMouseMove">
-            
-        </Canvas>        
+
+            <Grid Canvas.Top="0"
+                  x:Name="topBorder"
+                  Background="Black"
+                  Opacity="0.5"
+                  Height="100"
+                  Width="1920">
+            </Grid>
+
+            <Grid Canvas.Bottom="0"
+                  x:Name="bottomBorder"
+                  Background="Black"
+                  Opacity="0.5"
+                  Height="100"
+                  Width="1920">
+            </Grid>
+
+            <Grid Canvas.Left="0"
+                  x:Name="leftBorder"
+                  Background="Black"
+                  Opacity="0.5"
+                  Height="1080"
+                  Width="100">
+            </Grid>
+
+            <Grid Canvas.Right="0"
+                  x:Name="rigthBorder"
+                  Background="Black"
+                  Opacity="0.5"
+                  Height="1080"
+                  Width="100">
+            </Grid>
+
+        </Canvas>
     </Grid>
 </Window>
