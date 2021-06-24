@@ -14,21 +14,21 @@
         ResizeMode="NoResize"
         WindowState="Maximized"
         Background="Transparent">
-    <Grid>
+    <Grid x:Name="mainOwner">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="dfLeft"
                               Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition x:Name="dfRight" Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition x:Name="rfUp" Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition x:Name="rfDown" Height="*"></RowDefinition>
         </Grid.RowDefinitions>      
 
         <GridSplitter Grid.Column="1"
@@ -55,7 +55,9 @@
               x:Name="children"
               Background="White"
               Opacity="0.01"
-              PreviewMouseDown="children_PreviewMouseDown">
+              PreviewMouseDown="children_PreviewMouseDown"
+              PreviewMouseMove="children_PreviewMouseMove"
+              PreviewMouseUp="children_PreviewMouseUp">
 
         </Grid>
 
@@ -92,6 +94,7 @@
         </Grid>
         <Grid Grid.Column="0"
               Grid.Row="2"
+              Name="gLeft"
               Background="Black"
               Opacity="0.5">
 
@@ -125,6 +128,7 @@
         </Grid>
         <Grid Grid.Column="4"
               Grid.Row="2"
+              x:Name="gRight"
               Background="Black"
               Opacity="0.5">
 
