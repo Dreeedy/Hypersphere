@@ -65,8 +65,8 @@ namespace Hypersphere
 
             Point position = e.GetPosition(sender as IInputElement);
 
-            MoveVertically(position, sender, e);
-            MoveHorizontally(position, sender, e);
+            MoveVertically(position, sender, e);            
+            MoveHorizontally(position, sender, e);            
         }       
 
         private void mainCanvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -77,29 +77,58 @@ namespace Hypersphere
 
         private void MoveVertically(Point position, object sender, MouseEventArgs e)
         {
-            if (position.Y - this.offset.Y >= 0 &&
-                position.Y - this.offset.Y + whiteBox.ActualHeight <= mainCanvas.ActualHeight)// ограничивает движение по вертикали
+            if (position.Y - this.offset.Y >= 0
+                && position.Y - this.offset.Y + whiteBox.ActualHeight <= mainCanvas.ActualHeight)// ограничивает движение по вертикали
             {
-                topBorder.Height = position.Y - this.offset.Y;
-                bottomBorder.Height = mainCanvas.ActualHeight - topBorder.Height - whiteBox.ActualHeight;
-
+                DrawVerticalBlackArea(position);
+                DrawHorizontalBlackArea(position);
                 Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
             }
         }
 
-        private void MoveHorizontally(Point position, object sender, MouseEventArgs e)
+        private void DrawVerticalBlackArea(Point position)
+        {            
+            if (position.Y - this.offset.Y <= mainCanvas.ActualHeight - whiteBox.ActualHeight
+                && position.Y - this.offset.Y >= 0)// вниз
+            {
+                topBorder.Height = position.Y - this.offset.Y;
+            }
+            if (mainCanvas.ActualHeight - topBorder.Height - whiteBox.ActualHeight >= 0)// вверх
+            {
+                bottomBorder.Height = mainCanvas.ActualHeight - topBorder.Height - whiteBox.ActualHeight;
+            }            
+        }
+
+        private void DrawHorizontalBlackArea(Point position)
         {
-            if (position.X - this.offset.X >= 0 &&
-                position.X - this.offset.X + whiteBox.ActualWidth <= mainCanvas.ActualWidth)// ограничивает движение по горозонтали
+            if (position.X - this.offset.X >= 0
+                && position.X - this.offset.X <= mainCanvas.ActualWidth - whiteBox.ActualWidth)// вправо
             {
                 leftBorder.Width = position.X - this.offset.X;
                 Canvas.SetTop(leftBorder, topBorder.Height);
                 leftBorder.Height = whiteBox.ActualHeight;
+            }
+            else
+            {
+                Canvas.SetTop(leftBorder, topBorder.Height);
+                leftBorder.Height = whiteBox.ActualHeight;
+            }
 
+            if (mainCanvas.ActualWidth - leftBorder.Width - whiteBox.ActualWidth >= 0)// влево
+            {
                 rigthBorder.Width = mainCanvas.ActualWidth - leftBorder.Width - whiteBox.ActualWidth;
                 Canvas.SetTop(rigthBorder, topBorder.Height);
                 rigthBorder.Height = whiteBox.ActualHeight;
+            }           
+        }
 
+        private void MoveHorizontally(Point position, object sender, MouseEventArgs e)
+        {
+            if (position.X - this.offset.X >= 0
+                && position.X - this.offset.X + whiteBox.ActualWidth <= mainCanvas.ActualWidth)// ограничивает движение по горозонтали
+            {
+                DrawVerticalBlackArea(position);
+                DrawHorizontalBlackArea(position);
                 Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
             }
         }
