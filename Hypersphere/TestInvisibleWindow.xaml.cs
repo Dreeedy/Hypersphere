@@ -45,6 +45,7 @@ namespace Hypersphere
         public TestInvisibleWindow()
         {
             InitializeComponent();
+            // TODO: сделать рефакторинг
         }
 
         
