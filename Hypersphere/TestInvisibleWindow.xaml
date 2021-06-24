@@ -15,44 +15,178 @@
         WindowState="Maximized"
         Background="Transparent">
     <Grid>
-        <Canvas x:Name="mainCanvas"
-                Background="Transparent"
-                Loaded="mainCanvas_Loaded"
-                PreviewMouseUp="mainCanvas_PreviewMouseUp"
-                PreviewMouseMove="mainCanvas_PreviewMouseMove">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="dfLeft"
+                              Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>      
 
-            <Grid Canvas.Top="0"
-                  x:Name="topBorder"
-                  Background="Black"
-                  Opacity="0.5"
-                  Height="100"
-                  Width="1920">
-            </Grid>
+        <GridSplitter Grid.Column="1"
+                      Grid.Row="2"
+                      x:Name="gsLeft"
+                      ShowsPreview="False"
+                      Width="3"
+                      Background="Red"
+                      ResizeDirection="Columns"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch" />
 
-            <Grid Canvas.Bottom="0"
-                  x:Name="bottomBorder"
-                  Background="Black"
-                  Opacity="0.5"
-                  Height="100"
-                  Width="1920">
-            </Grid>
+        <GridSplitter Grid.Column="2"
+                      Grid.Row="1"
+                      ResizeDirection="Rows"
+                      ShowsPreview="False"
+                      Height="3"
+                      Background="Red"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center" />
 
-            <Grid Canvas.Left="0"
-                  x:Name="leftBorder"
-                  Background="Black"
-                  Opacity="0.5"
-                  Height="1080"
-                  Width="100">
-            </Grid>
+        <Grid Grid.Column="2"
+              Grid.Row="2"
+              x:Name="children"
+              Background="White"
+              Opacity="0.01"
+              PreviewMouseDown="children_PreviewMouseDown">
 
-            <Grid Canvas.Right="0"
-                  x:Name="rigthBorder"
-                  Background="Black"
-                  Opacity="0.5"
-                  Height="1080"
-                  Width="100">
-            </Grid>
+        </Grid>
 
-        </Canvas>
+        <GridSplitter Grid.Column="2"
+                      Grid.Row="3"
+                      ShowsPreview="False"
+                      Height="3"
+                      ResizeDirection="Rows"
+                      Background="Red"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center" />
+
+        <GridSplitter Grid.Column="3"
+                      Grid.Row="2"
+                      ShowsPreview="False"
+                      ResizeDirection="Columns"
+                      Width="3"
+                      Background="Red"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch" />
+        
+        <!--#BlackGrid 0.0 to 0.4 OPEN -->
+        <Grid Grid.Column="0"
+              Grid.Row="0"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="0"
+              Grid.Row="1"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="0"
+              Grid.Row="2"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="0"
+              Grid.Row="3"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="0"
+              Grid.Row="4"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <!--#BlackGrid 0.0 to 0.4 CLOSE -->
+
+        <!--#BlackGrid 4.0 to 4.4 OPEN -->
+        <Grid Grid.Column="4"
+              Grid.Row="0"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="4"
+              Grid.Row="1"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="4"
+              Grid.Row="2"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="4"
+              Grid.Row="3"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="4"
+              Grid.Row="4"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <!--#BlackGrid 4.0 to 4.4 CLOSE -->
+
+        <!--#BlackGrid 2.0 to 2.4 OPEN -->
+        <Grid Grid.Column="2"
+              Grid.Row="0"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="2"
+              Grid.Row="4"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <!--#BlackGrid 2.0 to 2.4 CLOSE -->
+
+        <!--#BlackGrid 1.0 to 1.4 OPEN -->
+        <Grid Grid.Column="1"
+              Grid.Row="0"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="1"
+              Grid.Row="4"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <!--#BlackGrid 1.0 to 1.4 CLOSE -->
+
+        <!--#BlackGrid 3.0 to 3.4 OPEN -->
+        <Grid Grid.Column="3"
+              Grid.Row="0"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <Grid Grid.Column="3"
+              Grid.Row="4"
+              Background="Black"
+              Opacity="0.5">
+
+        </Grid>
+        <!--#BlackGrid 3.0 to 3.4 CLOSE -->
+
     </Grid>
 </Window>
