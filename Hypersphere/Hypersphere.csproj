@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UserControls\**" />
+    <EmbeddedResource Remove="UserControls\**" />
+    <None Remove="UserControls\**" />
+    <Page Remove="UserControls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="icon_ico_32x32.ico" />
   </ItemGroup>
 
@@ -17,10 +24,6 @@
 
   <ItemGroup>
     <Resource Include="icon_ico_32x32.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UserControls\" />
   </ItemGroup>
 
 </Project>
