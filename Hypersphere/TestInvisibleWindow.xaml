@@ -16,19 +16,19 @@
         Background="Transparent">
     <Grid x:Name="mainOwner">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="dfLeft"
+            <ColumnDefinition x:Name="cdLeft"
                               Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition x:Name="dfRight" Width="*"></ColumnDefinition>
+            <ColumnDefinition x:Name="cdRight" Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="rfUp" Height="*"></RowDefinition>
+            <RowDefinition x:Name="rdUp" Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition x:Name="rfDown" Height="*"></RowDefinition>
+            <RowDefinition x:Name="rdDown" Height="*"></RowDefinition>
         </Grid.RowDefinitions>      
 
         <GridSplitter Grid.Column="1"

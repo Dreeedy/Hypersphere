@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+﻿using System.Drawing;
 
 namespace Hypersphere
 {
     class ScreenPhotographer : IScreenPhotographer
     {
-        private Bitmap printscreen;
-        private Graphics graphics;
+        Bitmap printscreen;
+        Graphics graphics;
 
-        private string path;
-        private System.Drawing.Imaging.ImageFormat imageFormat;
-        private string imageName;
+        string path;
+        System.Drawing.Imaging.ImageFormat imageFormat;
+        string imageName;
 
         public ScreenPhotographer(string path, string imageName, System.Drawing.Imaging.ImageFormat imageFormat)
         {
