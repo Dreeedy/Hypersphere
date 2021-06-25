@@ -1,50 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using static Hypersphere.MouseDirectionEnum;
 
 namespace Hypersphere
 {
-    class MouseMovementDirection
+    class MouseMovementDirection : IMouseMovementDirection
     {
-        public UIElement mouseMotionDetectionArea
-        {
-            get; set;
-        }
-
-        private Point previousPoint = new Point();
-        private Point currentPoint = new Point();
-
-        private MouseDirection direction;
+        Point previousPoint = new Point();
+        Point currentPoint = new Point();
+        MouseDirection direction;
 
         public MouseMovementDirection()
         {
 
         }
 
-        public enum MouseDirection
-        {
-            None,
-            Up,
-            Down,
-            Left,
-            Right,
-            TopLeft,
-            TopRight,
-            BottomLeft,
-            BottomRight,
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public MouseDirection GetMouseDirection(UIElement mouseMotionDetectionArea, MouseEventArgs e)
         {
             currentPoint = e.GetPosition(mouseMotionDetectionArea);
-
             bool mouseMoved = (previousPoint != currentPoint);
 
             if (mouseMoved)
@@ -55,7 +28,7 @@ namespace Hypersphere
             }
             else
             {
-                return direction;
+                return MouseDirection.None;
             }           
         }
 
@@ -80,22 +53,18 @@ namespace Hypersphere
             // Mouse moved diagonally up-right
             if ((previousPoint.X < currentPoint.X) && (previousPoint.Y > currentPoint.Y))
                 return MouseDirection.TopRight;
-            //return MouseDirection.Up;
 
             // Mouse moved diagonally up-left
             if ((previousPoint.X > currentPoint.X) && (previousPoint.Y > currentPoint.Y))
                 return MouseDirection.TopLeft;
-            //return MouseDirection.Up;
 
             // Mouse moved diagonally down-right
             if ((previousPoint.X < currentPoint.X) && (previousPoint.Y < currentPoint.Y))
                 return MouseDirection.BottomRight;
-            //return MouseDirection.Down;
 
             // Mouse moved diagonally down-left
             if ((previousPoint.X > currentPoint.X) && (previousPoint.Y < currentPoint.Y))
                 return MouseDirection.BottomLeft;
-            //return MouseDirection.Down;
 
             // Mouse didn't move
             return MouseDirection.None;

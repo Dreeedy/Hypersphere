@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -16,8 +10,8 @@ namespace Hypersphere
     /// </summary>
     public partial class App : Application
     {
-        private TaskbarIcon notifyIcon;
-        private static KeyboardHookManager keyboardHookManager;
+        TaskbarIcon notifyIcon;
+        static KeyboardHookManager keyboardHookManager;
 
         protected override void OnStartup(StartupEventArgs e)
         {

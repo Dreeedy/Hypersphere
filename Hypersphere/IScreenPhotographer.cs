@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Hypersphere
+﻿namespace Hypersphere
 {
     public interface IScreenPhotographer
     {
