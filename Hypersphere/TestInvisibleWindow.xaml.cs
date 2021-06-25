@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Hypersphere.UserControls;
+
 
 namespace Hypersphere
 {
@@ -21,11 +10,11 @@ namespace Hypersphere
     /// </summary>
     public partial class TestInvisibleWindow : Window
     {
-        Grid dragObject;
+        object dragObject;
         Point offset;
 
-        Point pre = new Point();
-        Point cur = new Point();
+        Point previous = new Point();
+        Point current = new Point();
 
         public enum MouseDirection
         {
@@ -64,16 +53,16 @@ namespace Hypersphere
                 return;
             }
 
-            cur = e.GetPosition(mainOwner);
+            current = e.GetPosition(mainOwner);
 
-            bool mouseMoved = (pre != cur);
+            bool mouseMoved = (previous != current);
 
             if (mouseMoved)
             {
-                MouseDirection direction = GetMouseDirection(pre, cur);
+                MouseDirection direction = GetMouseDirection(previous, current);
                 Move(direction);
-            }           
-            pre = cur;            
+            }
+            previous = current;            
         }
 
         private void Move(MouseDirection direction)
@@ -157,41 +146,41 @@ namespace Hypersphere
             children.ReleaseMouseCapture();
         }
 
-        private MouseDirection GetMouseDirection(Point pre, Point cur)
+        private MouseDirection GetMouseDirection(Point previous, Point current)
         {
             // Mouse moved up
-            if ((pre.X == cur.X) && (pre.Y > cur.Y))
+            if ((previous.X == current.X) && (previous.Y > current.Y))
                 return MouseDirection.Up;
 
             // Mouse moved down
-            if ((pre.X == cur.X) && (pre.Y < cur.Y))
+            if ((previous.X == current.X) && (previous.Y < current.Y))
                 return MouseDirection.Down;
 
             // Mouse moved left
-            if ((pre.X > cur.X) && (pre.Y == cur.Y))
+            if ((previous.X > current.X) && (previous.Y == current.Y))
                 return MouseDirection.Left;
 
             // Mouse moved right
-            if ((pre.X < cur.X) && (pre.Y == cur.Y))
+            if ((previous.X < current.X) && (previous.Y == current.Y))
                 return MouseDirection.Right;
 
             // Mouse moved diagonally up-right
-            if ((pre.X < cur.X) && (pre.Y > cur.Y))
+            if ((previous.X < current.X) && (previous.Y > current.Y))
                 return MouseDirection.TopRight;
             //return MouseDirection.Up;
 
             // Mouse moved diagonally up-left
-            if ((pre.X > cur.X) && (pre.Y > cur.Y))
+            if ((previous.X > current.X) && (previous.Y > current.Y))
                 return MouseDirection.TopLeft;
             //return MouseDirection.Up;
 
             // Mouse moved diagonally down-right
-            if ((pre.X < cur.X) && (pre.Y < cur.Y))
+            if ((previous.X < current.X) && (previous.Y < current.Y))
                 return MouseDirection.BottomRight;
             //return MouseDirection.Down;
 
             // Mouse moved diagonally down-left
-            if ((pre.X > cur.X) && (pre.Y < cur.Y))
+            if ((previous.X > current.X) && (previous.Y < current.Y))
                 return MouseDirection.BottomLeft;
             //return MouseDirection.Down;
 
