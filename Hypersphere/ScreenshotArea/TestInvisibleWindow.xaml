@@ -14,7 +14,8 @@
         ResizeMode="NoResize"
         WindowState="Maximized"
         Background="Transparent">
-    <Grid x:Name="mainOwner">
+    <Grid x:Name="mainOwner"
+          PreviewMouseMove="mainOwner_PreviewMouseMove">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="cdLeft"
                               Width="*"></ColumnDefinition>
@@ -56,10 +57,7 @@
               Background="White"
               Opacity="0.01"
               PreviewMouseDown="children_PreviewMouseDown"
-              PreviewMouseMove="children_PreviewMouseMove"
-              PreviewMouseUp="children_PreviewMouseUp">
-
-        </Grid>
+              PreviewMouseUp="children_PreviewMouseUp" />
 
         <GridSplitter Grid.Column="2"
                       Grid.Row="3"
