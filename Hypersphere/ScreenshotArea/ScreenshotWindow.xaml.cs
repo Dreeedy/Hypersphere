@@ -51,9 +51,9 @@ namespace Hypersphere.ScreenshotArea
             offsetMouseCoordinates.X = previousMouseCoordinates.X - currentMouseCoordinates.X;
 
             // TODO: рисование
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
-            {
-                Line line = new Line();
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())// https://metanit.com/sharp/wpf/17.2.php 
+            { // при рисовании линий все их нужно объединять в одну // использовать path для объединения фигур
+                Line line = new Line();                
                 paintAndUserControlsCanvas.Children.Add(line);
 
                 line.Stroke = new SolidColorBrush(Colors.Aqua);
@@ -62,8 +62,7 @@ namespace Hypersphere.ScreenshotArea
                 line.X1 = previousMouseCoordinates.X;
                 line.Y2 = currentMouseCoordinates.Y;
                 line.X2 = currentMouseCoordinates.X;
-            }         
-
+            }
             previousMouseCoordinates = currentMouseCoordinates;
         }
 
@@ -223,6 +222,7 @@ namespace Hypersphere.ScreenshotArea
                 paintUC = new PaintUC();// vertical
                 Canvas.SetTop(paintUC, paintUCPoint.Y);
                 Canvas.SetLeft(paintUC, paintUCPoint.X);
+                paintUC.elementCollection = paintAndUserControlsCanvas.Children;// чтобы можно было стирать нарисованное
                 paintAndUserControlsCanvas.Children.Add(paintUC);
             }
             else
@@ -248,5 +248,7 @@ namespace Hypersphere.ScreenshotArea
                 systemUC.Visibility = Visibility.Visible;
             }          
         }
+
+        
     }
 }

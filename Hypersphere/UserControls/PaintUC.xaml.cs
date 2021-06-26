@@ -21,10 +21,15 @@ namespace Hypersphere.UserControls
     public partial class PaintUC : UserControl
     {
         bool isPencilDraw;
+        public UIElementCollection elementCollection
+        {
+            get; set;
+        }
 
         public PaintUC()
         {
             InitializeComponent();
+            // TODO: отдельную ветку для "выбор цвета" и тд
         }
 
         public bool GetisPencilDraw()
@@ -48,6 +53,22 @@ namespace Hypersphere.UserControls
                 image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Plugs/plug_active_32x32.png"));
                 isPencilDraw = true;
             }
+        }        
+
+        private void cancelImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (elementCollection == null)
+            {
+                return;
+            }
+
+            RemoveLastChildren(elementCollection);
+        }
+
+        private void RemoveLastChildren(UIElementCollection elementCollection)
+        {
+            int count = elementCollection.Count;
+            elementCollection.RemoveAt(count-1);
         }
     }
 }
