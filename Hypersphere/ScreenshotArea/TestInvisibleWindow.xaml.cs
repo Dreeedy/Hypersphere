@@ -1,6 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Hypersphere.UserControls;
 
 namespace Hypersphere
 {
@@ -14,9 +18,18 @@ namespace Hypersphere
         Point offset = new Point();
         UIElement dragObject;
 
+        Canvas canvas;
+        Point previousCoordinates = new Point();
+        Point currentCoordinates = new Point();
+
+        bool pres = false;
+
+        PaintUC paintUC;
+        SystemUC systemUC;
+
         public TestInvisibleWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }        
 
         private void children_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -99,6 +112,99 @@ namespace Hypersphere
                 cdRight.Width = new GridLength(cdRight.ActualWidth + offset.X);
             }
             cdLeft.Width = new GridLength(cdLeft.ActualWidth - offset.X);
+        }
+
+        private void mainOwner_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void mainOwner_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (god.Children.Contains(canvas))
+            {
+                return;
+            }
+            canvas = new Canvas();
+            canvas.Height = mainOwner.ActualHeight;
+            canvas.Width = mainOwner.ActualWidth;
+            Background = new SolidColorBrush(Colors.Transparent);
+            god.Children.Add(canvas);
+        }        
+
+        private void god_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            pres = true;
+            previousCoordinates = e.GetPosition(mainOwner);
+        }
+
+        private void god_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            // TODO: рисование
+            if (pres == false)
+            {
+                return;
+            }
+            currentCoordinates = e.GetPosition(mainOwner);
+
+            Line line = new Line();
+            canvas.Children.Add(line);
+
+            line.Stroke = new SolidColorBrush(Colors.Aqua);
+            line.StrokeThickness = 2;            
+            line.Y1 = previousCoordinates.Y;
+            line.X1 = previousCoordinates.X;
+            line.Y2 = currentCoordinates.Y;
+            line.X2 = currentCoordinates.X;            
+
+            previousCoordinates = currentCoordinates;
+
+            CheckUserControlAndRemove();
+        }
+
+        private void god_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {            
+            pres = false;
+
+            CheckUserControlAndRemove();
+            CreateAndAddUserControl();
+
+
+        }
+
+        private void CheckUserControlAndRemove()
+        {
+            if (paintUC != null)
+            {
+                canvas.Children.Remove(paintUC);
+                paintUC = null;
+            }
+            if (systemUC != null)
+            {
+                canvas.Children.Remove(systemUC);
+                systemUC = null;
+            }
+        }
+
+        private void CreateAndAddUserControl()
+        {
+            // TODO: если UC выходит за границу экрана, помещать его внутрь области
+            // TODO: динамическое перемещение UC в зависемости от доступного места
+            // TODO: исключить пересечение UC друг с другом
+            Point paintUCPoint = children.PointToScreen(new Point(0, 0));
+            Point systemUCPoint = children.PointToScreen(new Point(0, 0));
+
+            paintUCPoint.X += children.ActualWidth + 6;// 3px gridSplitter, и еще 3px
+            paintUC = new PaintUC();// vertical
+            Canvas.SetTop(paintUC, paintUCPoint.Y);
+            Canvas.SetLeft(paintUC, paintUCPoint.X);
+            canvas.Children.Add(paintUC);
+
+            systemUCPoint.Y += children.ActualHeight + 6;// 3px gridSplitter, и еще 3px
+            systemUC = new SystemUC();// horizontal
+            Canvas.SetTop(systemUC, systemUCPoint.Y);
+            Canvas.SetLeft(systemUC, systemUCPoint.X);
+            canvas.Children.Add(systemUC);
         }
     }
 }

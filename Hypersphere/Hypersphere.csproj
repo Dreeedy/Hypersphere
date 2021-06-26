@@ -8,14 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UserControls\**" />
-    <EmbeddedResource Remove="UserControls\**" />
-    <None Remove="UserControls\**" />
-    <Page Remove="UserControls\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="icon_ico_32x32.ico" />
+    <None Remove="Resource\plug_10_32x32.png" />
+    <None Remove="Resource\plug_11_32x32.png" />
+    <None Remove="Resource\plug_1_32x32.png" />
+    <None Remove="Resource\plug_2_32x32.png" />
+    <None Remove="Resource\plug_3_32x32.png" />
+    <None Remove="Resource\plug_4_32x32.png" />
+    <None Remove="Resource\plug_5_32x32.png" />
+    <None Remove="Resource\plug_6_32x32.png" />
+    <None Remove="Resource\plug_7_32x32.png" />
+    <None Remove="Resource\plug_8_32x32.png" />
+    <None Remove="Resource\plug_9_32x32.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +28,42 @@
 
   <ItemGroup>
     <Resource Include="icon_ico_32x32.ico" />
+    <Resource Include="Resource\Plugs\plug_10_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_11_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_1_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_2_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_3_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_4_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_5_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_6_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_7_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_8_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_9_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="testimg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
