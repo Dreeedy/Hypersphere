@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Hypersphere.UserControls.SystemUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hypersphere.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel x:Name="spControls"
+        Orientation="Horizontal"
+                Height="auto"
+                Width="auto">
+        <Image Height="32"
+               Width="32"
+               Margin="1"
+               ToolTip="Копировать (CTRL + C)"
+               Source="/Resource/Plugs/plug_9_32x32.png"></Image>
+        <Image Height="32"
+               Width="32"
+               Margin="1"
+               ToolTip="Сохранить (CTRL + S)"
+               Source="/Resource/Plugs/plug_10_32x32.png"></Image>
+        <Image Height="32"
+               Width="32"
+               Margin="1"
+               ToolTip="Закрыть (CTRL + X)"
+               Source="/Resource/Plugs/plug_11_32x32.png"></Image>
+    </StackPanel>
+</UserControl>
