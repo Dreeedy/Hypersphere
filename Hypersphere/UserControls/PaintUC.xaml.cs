@@ -20,9 +20,34 @@ namespace Hypersphere.UserControls
     /// </summary>
     public partial class PaintUC : UserControl
     {
+        bool isPencilDraw;
+
         public PaintUC()
         {
             InitializeComponent();
+        }
+
+        public bool GetisPencilDraw()
+        {
+            return isPencilDraw;
+        }
+
+        private void pencilImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isPencilDraw)
+            {
+                // "/Resource/Plugs/plug_1_32x32.png" pack://application:,,,/AssemblyName;component/Resources/logo.png"
+                Image image = sender as Image;
+                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Plugs/plug_1_32x32.png"));
+                isPencilDraw = false;
+            }
+            else
+            {
+                // "/Resource/Plugs/plug_active_32x32.png"
+                Image image = sender as Image;
+                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Plugs/plug_active_32x32.png"));
+                isPencilDraw = true;
+            }
         }
     }
 }

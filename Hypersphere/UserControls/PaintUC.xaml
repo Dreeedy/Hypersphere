@@ -10,11 +10,13 @@
         Orientation="Vertical"
                 Height="auto"
                 Width="auto">
-        <Image Height="32"
+        <Image x:Name="pencilImage" 
+            Height="32"
                Width="32"
                Margin="1"
                ToolTip="Карандаш"
-               Source="/Resource/Plugs/plug_1_32x32.png"></Image>
+               Source="/Resource/Plugs/plug_1_32x32.png"
+               PreviewMouseUp="pencilImage_PreviewMouseUp"></Image>
         <Image Height="32"
                Width="32"
                Margin="1"
