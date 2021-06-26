@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
+using Hypersphere.ScreenshotArea;
 
 namespace Hypersphere
 {
@@ -26,8 +27,8 @@ namespace Hypersphere
 
             RegisterHotkeyAsync();
 
-            TestInvisibleWindow testInvisibleWindow = new TestInvisibleWindow();
-            testInvisibleWindow.Show();
+            ScreenshotWindow screenshotWindow = new ScreenshotWindow();
+            screenshotWindow.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)

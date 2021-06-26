@@ -20,10 +20,12 @@
                Margin="1"
                ToolTip="Сохранить (CTRL + S)"
                Source="/Resource/Plugs/plug_10_32x32.png"></Image>
-        <Image Height="32"
+        <Image x:Name="closeImage" 
+            Height="32"
                Width="32"
                Margin="1"
                ToolTip="Закрыть (CTRL + X)"
-               Source="/Resource/Plugs/plug_11_32x32.png"></Image>
+               Source="/Resource/Plugs/plug_11_32x32.png"
+               PreviewMouseUp="closeImage_PreviewMouseUp"></Image>
     </StackPanel>
 </UserControl>

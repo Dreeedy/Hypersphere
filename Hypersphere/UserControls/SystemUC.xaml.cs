@@ -24,5 +24,10 @@ namespace Hypersphere.UserControls
         {
             InitializeComponent();
         }
+
+        private void closeImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
