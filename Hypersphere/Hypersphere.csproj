@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="icon_ico_32x32.ico" />
+    <None Remove="Resource\Plugs\plug_active_32x32.png" />
     <None Remove="Resource\plug_10_32x32.png" />
     <None Remove="Resource\plug_11_32x32.png" />
     <None Remove="Resource\plug_1_32x32.png" />
@@ -59,6 +60,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Plugs\plug_9_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Plugs\plug_active_32x32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="testimg.png">

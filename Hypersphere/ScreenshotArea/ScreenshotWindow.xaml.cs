@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,8 +51,7 @@ namespace Hypersphere.ScreenshotArea
             offsetMouseCoordinates.X = previousMouseCoordinates.X - currentMouseCoordinates.X;
 
             // TODO: рисование
-            // TODO: режим рисования должен активироваться при нажатии на иконку и отключаться при повтороном нажатии
-            if (isLeftMouseButtonPressed == true && screenshotArea == null)
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
             {
                 Line line = new Line();
                 paintAndUserControlsCanvas.Children.Add(line);
@@ -62,7 +62,7 @@ namespace Hypersphere.ScreenshotArea
                 line.X1 = previousMouseCoordinates.X;
                 line.Y2 = currentMouseCoordinates.Y;
                 line.X2 = currentMouseCoordinates.X;
-            }           
+            }         
 
             previousMouseCoordinates = currentMouseCoordinates;
         }
@@ -99,6 +99,40 @@ namespace Hypersphere.ScreenshotArea
 
             screenshotArea = null;            
         }
+
+        private void blackAndScreenshotAreasGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            gsTop.DragStarted += GridSplittersHandler_DragStarted;
+            gsBottom.DragStarted += GridSplittersHandler_DragStarted;
+            gsLeft.DragStarted += GridSplittersHandler_DragStarted;
+            gsRight.DragStarted += GridSplittersHandler_DragStarted;
+
+            gsTop.DragDelta += GridSplittersHandler_DragDelta;
+            gsBottom.DragDelta += GridSplittersHandler_DragDelta;
+            gsLeft.DragDelta += GridSplittersHandler_DragDelta;
+            gsRight.DragDelta += GridSplittersHandler_DragDelta;
+
+            gsTop.DragCompleted += GridSplittersHandler_DragCompleted;
+            gsBottom.DragCompleted += GridSplittersHandler_DragCompleted;
+            gsLeft.DragCompleted += GridSplittersHandler_DragCompleted;
+            gsRight.DragCompleted += GridSplittersHandler_DragCompleted;
+        }
+
+        private void GridSplittersHandler_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+
+        }
+
+        private void GridSplittersHandler_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            CheckUserControlAndRemove();
+        }
+
+        private void GridSplittersHandler_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            CheckUserControlAndRemove();
+            CreateAndAddUserControl();
+        }        
         #endregion
 
         private void MoveScreenshotArea()
@@ -180,6 +214,7 @@ namespace Hypersphere.ScreenshotArea
             // TODO: если UC выходит за границу экрана, помещать его внутрь области
             // TODO: динамическое перемещение UC в зависемости от доступного места
             // TODO: исключить пересечение UC друг с другом
+            // TODO: не отображать UC когда происходит изменения размеров screenshotArea
             Point paintUCPoint = screenshotAreaGrid.PointToScreen(new Point(0, 0));
             Point systemUCPoint = screenshotAreaGrid.PointToScreen(new Point(0, 0));
 
@@ -195,5 +230,7 @@ namespace Hypersphere.ScreenshotArea
             Canvas.SetLeft(systemUC, systemUCPoint.X);
             paintAndUserControlsCanvas.Children.Add(systemUC);
         }
+
+
     }
 }

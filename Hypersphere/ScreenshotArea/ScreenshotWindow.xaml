@@ -19,8 +19,8 @@
           PreviewMouseMove="mainGrid_PreviewMouseMove"
           PreviewMouseUp="mainGrid_PreviewMouseUp">
 
-        <Grid x:Name="blackAndScreenshotAreasGrid">
-
+        <Grid x:Name="blackAndScreenshotAreasGrid"
+              Loaded="blackAndScreenshotAreasGrid_Loaded">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="cdLeft"
                                   Width="*"></ColumnDefinition>
@@ -40,6 +40,35 @@
                                Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <Grid Grid.Column="2"
+                  Grid.Row="2"
+                  x:Name="screenshotAreaGrid"
+                  Background="White"
+                  Opacity="0.01"
+                  PreviewMouseDown="screenshotAreaGrid_PreviewMouseDown"
+                  PreviewMouseMove="screenshotAreaGrid_PreviewMouseMove"
+                  PreviewMouseUp="screenshotAreaGrid_PreviewMouseUp" />            
+
+            <GridSplitter Grid.Column="2"
+                          Grid.Row="1"
+                          x:Name="gsTop"
+                          ResizeDirection="Rows"
+                          ShowsPreview="False"
+                          Height="3"
+                          Background="Red"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center" />            
+
+            <GridSplitter Grid.Column="2"
+                          Grid.Row="3"
+                          x:Name="gsBottom"
+                          ShowsPreview="False"
+                          Height="3"
+                          ResizeDirection="Rows"
+                          Background="Red"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center" />
+
             <GridSplitter Grid.Column="1"
                           Grid.Row="2"
                           x:Name="gsLeft"
@@ -50,35 +79,9 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Stretch" />
 
-            <GridSplitter Grid.Column="2"
-                          Grid.Row="1"
-                          ResizeDirection="Rows"
-                          ShowsPreview="False"
-                          Height="3"
-                          Background="Red"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center" />
-
-            <Grid Grid.Column="2"
-                  Grid.Row="2"
-                  x:Name="screenshotAreaGrid"
-                  Background="White"
-                  Opacity="0.01"
-                  PreviewMouseDown="screenshotAreaGrid_PreviewMouseDown"
-                  PreviewMouseMove="screenshotAreaGrid_PreviewMouseMove"
-                  PreviewMouseUp="screenshotAreaGrid_PreviewMouseUp" />
-
-            <GridSplitter Grid.Column="2"
-                          Grid.Row="3"
-                          ShowsPreview="False"
-                          Height="3"
-                          ResizeDirection="Rows"
-                          Background="Red"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center" />
-
             <GridSplitter Grid.Column="3"
                           Grid.Row="2"
+                          x:Name="gsRight"
                           ShowsPreview="False"
                           ResizeDirection="Columns"
                           Width="3"
