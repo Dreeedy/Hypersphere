@@ -8,5 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TextBlock Text="Have a look at App.xaml and App.xaml.cs to see how things are working" />
+        
     </Grid>
 </Window>

@@ -32,6 +32,9 @@ namespace Hypersphere.ScreenshotArea
         PaintUC paintUC;
         SystemUC systemUC;
 
+        Path path;
+        GeometryGroup geometryGroup;
+
         public ScreenshotWindow()
         {
             InitializeComponent();
@@ -42,6 +45,22 @@ namespace Hypersphere.ScreenshotArea
         {
             isLeftMouseButtonPressed = true;
             previousMouseCoordinates = e.GetPosition(mainGrid);
+
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
+            { 
+                // TODO: нормальная инициализация карандаша
+                path = new Path();
+                path.Stroke = Brushes.Black;
+                path.StrokeThickness = 1;
+                SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+                mySolidColorBrush.Color = Color.FromArgb(255, 204, 204, 255);
+                path.Fill = mySolidColorBrush;
+
+                geometryGroup = new GeometryGroup();
+                path.Data = geometryGroup;
+
+                paintAndUserControlsCanvas.Children.Add(path); 
+            }
         }
 
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -51,23 +70,21 @@ namespace Hypersphere.ScreenshotArea
             offsetMouseCoordinates.X = previousMouseCoordinates.X - currentMouseCoordinates.X;
 
             // TODO: рисование
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())// https://metanit.com/sharp/wpf/17.2.php 
-            { // при рисовании линий все их нужно объединять в одну // использовать path для объединения фигур
-                Line line = new Line();                
-                paintAndUserControlsCanvas.Children.Add(line);
+            // TODO: refactor/рисование
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
+            { 
+                LineGeometry line = new LineGeometry();
 
-                line.Stroke = new SolidColorBrush(Colors.Aqua);
-                line.StrokeThickness = 2;
-                line.Y1 = previousMouseCoordinates.Y;
-                line.X1 = previousMouseCoordinates.X;
-                line.Y2 = currentMouseCoordinates.Y;
-                line.X2 = currentMouseCoordinates.X;
+                line.StartPoint = previousMouseCoordinates;
+                line.EndPoint = currentMouseCoordinates;
+
+                geometryGroup.Children.Add(line);
             }
             previousMouseCoordinates = currentMouseCoordinates;
         }
 
         private void mainGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
+        {           
             isLeftMouseButtonPressed = false;
         }
 
