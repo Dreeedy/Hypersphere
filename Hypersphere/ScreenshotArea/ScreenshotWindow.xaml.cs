@@ -21,10 +21,6 @@ namespace Hypersphere.ScreenshotArea
     /// </summary>
     public partial class ScreenshotWindow : Window
     {
-        Point previousMouseCoordinates = new Point();
-        Point currentMouseCoordinates = new Point();
-        Point offsetMouseCoordinates = new Point();
-
         UIElement screenshotArea;
 
         bool isLeftMouseButtonPressed;
@@ -32,55 +28,42 @@ namespace Hypersphere.ScreenshotArea
         PaintUC paintUC;
         SystemUC systemUC;
 
-        Path path;
-        GeometryGroup geometryGroup;
+        IMouseCoordinates mouseCoordinates;
+        IDrawingPencil drawingPencil;
 
         public ScreenshotWindow()
         {
             InitializeComponent();
+
+            mouseCoordinates = new MouseCoordinates();
+            drawingPencil = new DrawingPencil();
         }
 
         #region Event_Handlers      
         private void mainGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             isLeftMouseButtonPressed = true;
-            previousMouseCoordinates = e.GetPosition(mainGrid);
+
+            mouseCoordinates.SetPreviousMouseCoordinates(mainGrid, e);
 
             if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
-            { 
-                // TODO: нормальная инициализация карандаша
-                path = new Path();
-                path.Stroke = Brushes.Black;
-                path.StrokeThickness = 1;
-                SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-                mySolidColorBrush.Color = Color.FromArgb(255, 204, 204, 255);
-                path.Fill = mySolidColorBrush;
-
-                geometryGroup = new GeometryGroup();
-                path.Data = geometryGroup;
-
-                paintAndUserControlsCanvas.Children.Add(path); 
+            {
+                drawingPencil.CreatePencil(paintAndUserControlsCanvas);
             }
         }
 
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            currentMouseCoordinates = e.GetPosition(mainGrid);
-            offsetMouseCoordinates.Y = previousMouseCoordinates.Y - currentMouseCoordinates.Y;
-            offsetMouseCoordinates.X = previousMouseCoordinates.X - currentMouseCoordinates.X;
+            mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
+            mouseCoordinates.СalculateOffsetMouseCoordinates();
 
-            // TODO: рисование
-            // TODO: refactor/рисование
             if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
-            { 
-                LineGeometry line = new LineGeometry();
-
-                line.StartPoint = previousMouseCoordinates;
-                line.EndPoint = currentMouseCoordinates;
-
-                geometryGroup.Children.Add(line);
+            {
+                Point previousCoordinates = mouseCoordinates.GetPreviousMouseCoordinates();
+                Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
+                drawingPencil.DrawLineGeometry(previousCoordinates, currentCoordinates);
             }
-            previousMouseCoordinates = currentMouseCoordinates;
+            mouseCoordinates.UpdatePreviousMouseCoordinates();
         }
 
         private void mainGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -157,58 +140,60 @@ namespace Hypersphere.ScreenshotArea
              Движение ScreenshotArea происходит за счет изменения width у ColumnDefinition 
             и height RowDefinition находящихся внутри Grid blackAndScreenshotAreasGrid 
              */
-            if (offsetMouseCoordinates.Y > 0)
+            Point offset = mouseCoordinates.GetOffsetMouseCoordinates();
+
+            if (offset.Y > 0)
             {
-                MoveScreenshotAreaUp();
+                MoveScreenshotAreaUp(offset);
             }
-            if (offsetMouseCoordinates.Y < 0)
+            if (offset.Y < 0)
             {
-                MoveScreenshotAreaDown();
+                MoveScreenshotAreaDown(offset);
             }
-            if (offsetMouseCoordinates.X > 0)
+            if (offset.X > 0)
             {
-                MoveScreenshotAreaLeft();
+                MoveScreenshotAreaLeft(offset);
             }
-            if (offsetMouseCoordinates.X < 0)
+            if (offset.X < 0)
             {
-                MoveScreenshotAreaRight();
+                MoveScreenshotAreaRight(offset);
             }
         }
 
-        private void MoveScreenshotAreaUp()
+        private void MoveScreenshotAreaUp(Point offset)
         {
-            if (rdUp.ActualHeight - offsetMouseCoordinates.Y >= 0)
+            if (rdUp.ActualHeight - offset.Y >= 0)
             {
-                rdUp.Height = new GridLength(rdUp.ActualHeight - offsetMouseCoordinates.Y);
+                rdUp.Height = new GridLength(rdUp.ActualHeight - offset.Y);
             }
-            rdDown.Height = new GridLength(rdDown.ActualHeight + offsetMouseCoordinates.Y);
+            rdDown.Height = new GridLength(rdDown.ActualHeight + offset.Y);
         }
 
-        private void MoveScreenshotAreaDown()
+        private void MoveScreenshotAreaDown(Point offset)
         {
-            if (rdDown.ActualHeight + offsetMouseCoordinates.Y >= 0)
+            if (rdDown.ActualHeight + offset.Y >= 0)
             {
-                rdDown.Height = new GridLength(rdDown.ActualHeight + offsetMouseCoordinates.Y);
+                rdDown.Height = new GridLength(rdDown.ActualHeight + offset.Y);
             }
-            rdUp.Height = new GridLength(rdUp.ActualHeight - offsetMouseCoordinates.Y);
+            rdUp.Height = new GridLength(rdUp.ActualHeight - offset.Y);
         }
 
-        private void MoveScreenshotAreaLeft()
+        private void MoveScreenshotAreaLeft(Point offset)
         {
-            if (cdLeft.ActualWidth - offsetMouseCoordinates.X >= 0)
+            if (cdLeft.ActualWidth - offset.X >= 0)
             {
-                cdLeft.Width = new GridLength(cdLeft.ActualWidth - offsetMouseCoordinates.X);
+                cdLeft.Width = new GridLength(cdLeft.ActualWidth - offset.X);
             }
-            cdRight.Width = new GridLength(cdRight.ActualWidth + offsetMouseCoordinates.X);
+            cdRight.Width = new GridLength(cdRight.ActualWidth + offset.X);
         }
 
-        private void MoveScreenshotAreaRight()
+        private void MoveScreenshotAreaRight(Point offset)
         {
-            if (cdRight.ActualWidth + offsetMouseCoordinates.X >= 0)
+            if (cdRight.ActualWidth + offset.X >= 0)
             {
-                cdRight.Width = new GridLength(cdRight.ActualWidth + offsetMouseCoordinates.X);
+                cdRight.Width = new GridLength(cdRight.ActualWidth + offset.X);
             }
-            cdLeft.Width = new GridLength(cdLeft.ActualWidth - offsetMouseCoordinates.X);
+            cdLeft.Width = new GridLength(cdLeft.ActualWidth - offset.X);
         }
 
         private void CheckUserControlAndHide()
@@ -264,8 +249,6 @@ namespace Hypersphere.ScreenshotArea
                 Canvas.SetLeft(systemUC, systemUCPoint.X);
                 systemUC.Visibility = Visibility.Visible;
             }          
-        }
-
-        
+        }        
     }
 }
