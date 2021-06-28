@@ -58,8 +58,9 @@ namespace Hypersphere
             ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
             // TODO: исключить пересечение UC друг с другом
+            // TODO: привязать элементы управления к правому нижнему углу, это позволит решить проблему пересечения
+            // TODO: controls не должны уходить за границу экрана
 
-            // TODO: refactor
             if (!parent.Children.Contains(paintUC) && !parent.Children.Contains(systemUC))
             {
                 CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown);
@@ -83,7 +84,7 @@ namespace Hypersphere
         {
             systemUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
 
-            if (rdDown.ActualHeight > PICTURE_SIZE_AND_PADDING && rdDown.ActualHeight > PICTURE_SIZE_AND_PADDING)// Есть место и снизу и сверху
+            if (rdDown.ActualHeight > PICTURE_SIZE_AND_PADDING)// Есть место снизу
             {
                 systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight + GRID_SPLITTER_THICKNESS_AND_PADDING;
             }
@@ -95,15 +96,24 @@ namespace Hypersphere
             {
                 systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
             }
-            Canvas.SetTop(systemUC, systemUCCoordinate.Y);
-            Canvas.SetLeft(systemUC, systemUCCoordinate.X);
+
+            if (systemUCCoordinate.Y >= 0 && systemUCCoordinate.X + screenshotAreaGrid.ActualWidth - 102 >= 0)
+            {
+                Canvas.SetTop(systemUC, systemUCCoordinate.Y);
+                Canvas.SetLeft(systemUC, systemUCCoordinate.X + screenshotAreaGrid.ActualWidth - 102);
+            }
+            else
+            {
+                Canvas.SetTop(systemUC, 0);// разделить
+                Canvas.SetLeft(systemUC, 0);
+            }
         }
 
         private void CalculatePaintUCCoordinate(FrameworkElement screenshotAreaGrid, ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
             paintUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
 
-            if (cdRight.ActualWidth > PICTURE_SIZE_AND_PADDING && cdLeft.ActualWidth > PICTURE_SIZE_AND_PADDING)// Есть место и слева и справа
+            if (cdRight.ActualWidth > PICTURE_SIZE_AND_PADDING)// Есть место справа
             {
                 paintUCCoordinate.X += screenshotAreaGrid.ActualWidth + GRID_SPLITTER_THICKNESS_AND_PADDING;
             }
@@ -115,7 +125,7 @@ namespace Hypersphere
             {
                 paintUCCoordinate.X += screenshotAreaGrid.ActualWidth - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
             }
-            Canvas.SetTop(paintUC, paintUCCoordinate.Y);
+            Canvas.SetTop(paintUC, paintUCCoordinate.Y + screenshotAreaGrid.ActualHeight - 272);
             Canvas.SetLeft(paintUC, paintUCCoordinate.X);
         }
 
