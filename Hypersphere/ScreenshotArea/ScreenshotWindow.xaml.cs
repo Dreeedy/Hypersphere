@@ -93,7 +93,7 @@ namespace Hypersphere.ScreenshotArea
 
             // отображение controls происходит только тогда, когда форма не screenshotArea
             screenshotAreaControl.IsDoExistAndHide();
-            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas);
+            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
 
             screenshotArea = null;            
         }
@@ -130,7 +130,7 @@ namespace Hypersphere.ScreenshotArea
         private void GridSplittersHandler_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             screenshotAreaControl.IsDoExistAndHide();
-            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas);
+            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
         }        
         #endregion
 

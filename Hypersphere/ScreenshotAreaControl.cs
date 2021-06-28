@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,21 @@ namespace Hypersphere
 {
     class ScreenshotAreaControl : IScreenshotAreaControl
     {
-        PaintUC paintUC;
-        SystemUC systemUC;
+        const int PICTURE_SIZE_AND_PADDING = 34; // размер image у screenshotArea controls и padding
+        const int GRID_SPLITTER_THICKNESS_AND_PADDING = 6; // толшина gridSplitter и padding
+                                                           // 
+        SystemUC systemUC; // всегда расположен вертикально
+        PaintUC paintUC; // всегда расположен горизонтально
+
+        Point paintUCCoordinate;
+        Point systemUCCoordinate;
+        
+
 
         public ScreenshotAreaControl()
-        {
-            paintUC = new PaintUC();
+        {            
             systemUC = new SystemUC();
+            paintUC = new PaintUC();
         }
 
         public bool IsDoExistAndIsPencilDraw()
@@ -44,48 +53,72 @@ namespace Hypersphere
             }
         }
 
-        public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent)
+        public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent,
+            RowDefinition rdUp, RowDefinition rdDown,
+            ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
-            // TODO: если UC выходит за границу экрана, помещать его внутрь области
-            // TODO: динамическое перемещение UC в зависемости от доступного места
             // TODO: исключить пересечение UC друг с другом
 
-            Point paintUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
-            Point systemUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
-
             // TODO: refactor
-            if (!parent.Children.Contains(paintUC))
+            if (!parent.Children.Contains(paintUC) && !parent.Children.Contains(systemUC))
             {
-                paintUCCoordinate.X += screenshotAreaGrid.ActualWidth + 6;// 3px gridSplitter, и еще 3px
-                //paintUC = new PaintUC();// vertical
-                Canvas.SetTop(paintUC, paintUCCoordinate.Y);
-                Canvas.SetLeft(paintUC, paintUCCoordinate.X);
+                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown);
+                parent.Children.Add(systemUC);
+
+                CalculatePaintUCCoordinate(screenshotAreaGrid, cdLeft, cdRight);
                 paintUC.elementCollection = parent.Children;// чтобы можно было стирать нарисованное
                 parent.Children.Add(paintUC);
             }
             else
             {
-                paintUCCoordinate.X += screenshotAreaGrid.ActualWidth + 6;// 3px gridSplitter, и еще 3px
-                Canvas.SetTop(paintUC, paintUCCoordinate.Y);
-                Canvas.SetLeft(paintUC, paintUCCoordinate.X);
-                paintUC.Visibility = Visibility.Visible;
+                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown);
+                CalculatePaintUCCoordinate(screenshotAreaGrid, cdLeft, cdRight);
             }
-            if (!parent.Children.Contains(systemUC))
-            {
-                systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight + 6;// 3px gridSplitter, и еще 3px
-                //systemUC = new SystemUC();// horizontal
-                Canvas.SetTop(systemUC, systemUCCoordinate.Y);
-                Canvas.SetLeft(systemUC, systemUCCoordinate.X);
-                parent.Children.Add(systemUC);
-            }
-            else
-            {
-                systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight + 6;// 3px gridSplitter, и еще 3px
-                Canvas.SetTop(systemUC, systemUCCoordinate.Y);
-                Canvas.SetLeft(systemUC, systemUCCoordinate.X);
-                systemUC.Visibility = Visibility.Visible;
-            }
+            Show();
         }
+
+
+
+        private void CalculateSystemUCCoordinate(FrameworkElement screenshotAreaGrid, RowDefinition rdUp, RowDefinition rdDown)
+        {
+            systemUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
+
+            if (rdDown.ActualHeight > PICTURE_SIZE_AND_PADDING && rdDown.ActualHeight > PICTURE_SIZE_AND_PADDING)// Есть место и снизу и сверху
+            {
+                systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight + GRID_SPLITTER_THICKNESS_AND_PADDING;
+            }
+            if (rdDown.ActualHeight < PICTURE_SIZE_AND_PADDING && rdUp.ActualHeight > PICTURE_SIZE_AND_PADDING)// Нет места снизу
+            {
+                systemUCCoordinate.Y -= (PICTURE_SIZE_AND_PADDING + GRID_SPLITTER_THICKNESS_AND_PADDING);
+            }
+            if (rdDown.ActualHeight < PICTURE_SIZE_AND_PADDING && rdUp.ActualHeight < PICTURE_SIZE_AND_PADDING)// Нет места снизу и сверху
+            {
+                systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
+            }
+            Canvas.SetTop(systemUC, systemUCCoordinate.Y);
+            Canvas.SetLeft(systemUC, systemUCCoordinate.X);
+        }
+
+        private void CalculatePaintUCCoordinate(FrameworkElement screenshotAreaGrid, ColumnDefinition cdLeft, ColumnDefinition cdRight)
+        {
+            paintUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
+
+            if (cdRight.ActualWidth > PICTURE_SIZE_AND_PADDING && cdLeft.ActualWidth > PICTURE_SIZE_AND_PADDING)// Есть место и слева и справа
+            {
+                paintUCCoordinate.X += screenshotAreaGrid.ActualWidth + GRID_SPLITTER_THICKNESS_AND_PADDING;
+            }
+            if (cdRight.ActualWidth < PICTURE_SIZE_AND_PADDING && cdLeft.ActualWidth > PICTURE_SIZE_AND_PADDING)// Нет места справа
+            {
+                paintUCCoordinate.X -= (PICTURE_SIZE_AND_PADDING + GRID_SPLITTER_THICKNESS_AND_PADDING);
+            }
+            if (cdRight.ActualWidth < PICTURE_SIZE_AND_PADDING && cdLeft.ActualWidth < PICTURE_SIZE_AND_PADDING)// Нет места справа и слева
+            {
+                paintUCCoordinate.X += screenshotAreaGrid.ActualWidth - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
+            }
+            Canvas.SetTop(paintUC, paintUCCoordinate.Y);
+            Canvas.SetLeft(paintUC, paintUCCoordinate.X);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -103,7 +136,7 @@ namespace Hypersphere
                 return false;
             }
         }
-        
+
         private void Hide()
         {
             paintUC.Visibility = Visibility.Hidden;

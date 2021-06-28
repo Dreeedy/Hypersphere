@@ -8,6 +8,6 @@ namespace Hypersphere
     {
         public bool IsDoExistAndIsPencilDraw();
         public void IsDoExistAndHide();
-        public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent);
+        public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent, RowDefinition rdUp, RowDefinition rdDown, ColumnDefinition cdLeft, ColumnDefinition cdRight);
     }
 }
