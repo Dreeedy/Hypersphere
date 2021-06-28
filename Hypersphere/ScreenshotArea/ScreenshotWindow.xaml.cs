@@ -25,11 +25,9 @@ namespace Hypersphere.ScreenshotArea
 
         bool isLeftMouseButtonPressed;
 
-        PaintUC paintUC;
-        SystemUC systemUC;
-
         IMouseCoordinates mouseCoordinates;
         IDrawingPencil drawingPencil;
+        IScreenshotAreaControl screenshotAreaControl;
 
         public ScreenshotWindow()
         {
@@ -37,6 +35,7 @@ namespace Hypersphere.ScreenshotArea
 
             mouseCoordinates = new MouseCoordinates();
             drawingPencil = new DrawingPencil();
+            screenshotAreaControl = new ScreenshotAreaControl();
         }
 
         #region Event_Handlers      
@@ -45,8 +44,8 @@ namespace Hypersphere.ScreenshotArea
             isLeftMouseButtonPressed = true;
 
             mouseCoordinates.SetPreviousMouseCoordinates(mainGrid, e);
-
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
+            
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 drawingPencil.CreatePencil(paintAndUserControlsCanvas);
             }
@@ -57,7 +56,7 @@ namespace Hypersphere.ScreenshotArea
             mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
             mouseCoordinates.СalculateOffsetMouseCoordinates();
 
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && paintUC != null && paintUC.GetisPencilDraw())
+            if (isLeftMouseButtonPressed == true && screenshotArea == null && screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 Point previousCoordinates = mouseCoordinates.GetPreviousMouseCoordinates();
                 Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
@@ -85,7 +84,7 @@ namespace Hypersphere.ScreenshotArea
             }            
             MoveScreenshotArea();
 
-            CheckUserControlAndHide();
+            screenshotAreaControl.IsDoExistAndHide();
         }
 
         private void screenshotAreaGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -93,8 +92,8 @@ namespace Hypersphere.ScreenshotArea
             screenshotArea.ReleaseMouseCapture();
 
             // отображение controls происходит только тогда, когда форма не screenshotArea
-            CheckUserControlAndHide();
-            CreateAndAddUserControlOrShow();
+            screenshotAreaControl.IsDoExistAndHide();
+            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas);
 
             screenshotArea = null;            
         }
@@ -119,18 +118,19 @@ namespace Hypersphere.ScreenshotArea
 
         private void GridSplittersHandler_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
-
+            // TODO: запретить рисование во время изменения размеров формы
+            // TODO: или запретить измененение формы во время рисования
         }
 
         private void GridSplittersHandler_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            CheckUserControlAndHide();
+            screenshotAreaControl.IsDoExistAndHide();
         }
 
         private void GridSplittersHandler_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-            CheckUserControlAndHide();
-            CreateAndAddUserControlOrShow();
+            screenshotAreaControl.IsDoExistAndHide();
+            screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas);
         }        
         #endregion
 
@@ -194,61 +194,6 @@ namespace Hypersphere.ScreenshotArea
                 cdRight.Width = new GridLength(cdRight.ActualWidth + offset.X);
             }
             cdLeft.Width = new GridLength(cdLeft.ActualWidth - offset.X);
-        }
-
-        private void CheckUserControlAndHide()
-        {
-            if (paintUC != null)
-            {
-                paintUC.Visibility = Visibility.Hidden;
-            }
-            if (systemUC != null)
-            {
-                systemUC.Visibility = Visibility.Hidden;
-            }
-        }
-
-        private void CreateAndAddUserControlOrShow()
-        {
-            // TODO: если UC выходит за границу экрана, помещать его внутрь области
-            // TODO: динамическое перемещение UC в зависемости от доступного места
-            // TODO: исключить пересечение UC друг с другом
-
-            Point paintUCPoint = screenshotAreaGrid.PointToScreen(new Point(0, 0));
-            Point systemUCPoint = screenshotAreaGrid.PointToScreen(new Point(0, 0));
-
-            // TODO: refactor
-            if (!paintAndUserControlsCanvas.Children.Contains(paintUC))
-            {
-                paintUCPoint.X += screenshotAreaGrid.ActualWidth + 6;// 3px gridSplitter, и еще 3px
-                paintUC = new PaintUC();// vertical
-                Canvas.SetTop(paintUC, paintUCPoint.Y);
-                Canvas.SetLeft(paintUC, paintUCPoint.X);
-                paintUC.elementCollection = paintAndUserControlsCanvas.Children;// чтобы можно было стирать нарисованное
-                paintAndUserControlsCanvas.Children.Add(paintUC);
-            }
-            else
-            {
-                paintUCPoint.X += screenshotAreaGrid.ActualWidth + 6;// 3px gridSplitter, и еще 3px
-                Canvas.SetTop(paintUC, paintUCPoint.Y);
-                Canvas.SetLeft(paintUC, paintUCPoint.X);
-                paintUC.Visibility = Visibility.Visible;
-            }
-            if (!paintAndUserControlsCanvas.Children.Contains(systemUC))
-            {
-                systemUCPoint.Y += screenshotAreaGrid.ActualHeight + 6;// 3px gridSplitter, и еще 3px
-                systemUC = new SystemUC();// horizontal
-                Canvas.SetTop(systemUC, systemUCPoint.Y);
-                Canvas.SetLeft(systemUC, systemUCPoint.X);
-                paintAndUserControlsCanvas.Children.Add(systemUC);
-            }
-            else
-            {
-                systemUCPoint.Y += screenshotAreaGrid.ActualHeight + 6;// 3px gridSplitter, и еще 3px
-                Canvas.SetTop(systemUC, systemUCPoint.Y);
-                Canvas.SetLeft(systemUC, systemUCPoint.X);
-                systemUC.Visibility = Visibility.Visible;
-            }          
-        }        
+        }       
     }
 }

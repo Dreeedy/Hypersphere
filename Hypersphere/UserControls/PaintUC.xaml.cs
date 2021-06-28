@@ -32,7 +32,7 @@ namespace Hypersphere.UserControls
             // TODO: отдельную ветку для "выбор цвета" и тд
         }
 
-        public bool GetisPencilDraw()
+        public bool IsPencilDraw()
         {
             return isPencilDraw;
         }
