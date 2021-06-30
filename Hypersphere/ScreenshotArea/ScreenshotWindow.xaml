@@ -51,12 +51,13 @@
 
             <GridSplitter Grid.Column="2"
                           Grid.Row="1"
-                          x:Name="gsTop"
+                          x:Name="gsTop"                          
                           ResizeDirection="Rows"
                           ShowsPreview="False"
                           Height="3"
                           Background="Red"
                           HorizontalAlignment="Stretch"
+                          Panel.ZIndex="1000"
                           VerticalAlignment="Center" />            
 
             <GridSplitter Grid.Column="2"
@@ -67,6 +68,7 @@
                           ResizeDirection="Rows"
                           Background="Red"
                           HorizontalAlignment="Stretch"
+                          Panel.ZIndex="1000"
                           VerticalAlignment="Center" />
 
             <GridSplitter Grid.Column="1"
@@ -77,6 +79,7 @@
                           Background="Red"
                           ResizeDirection="Columns"
                           HorizontalAlignment="Center"
+                          Panel.ZIndex="1000"
                           VerticalAlignment="Stretch" />
 
             <GridSplitter Grid.Column="3"
@@ -87,6 +90,7 @@
                           Width="3"
                           Background="Red"
                           HorizontalAlignment="Center"
+                          Panel.ZIndex="1000"
                           VerticalAlignment="Stretch" />
 
             <!--#BlackGrid 0.0 to 0.4 OPEN -->

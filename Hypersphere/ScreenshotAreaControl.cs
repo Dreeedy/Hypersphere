@@ -37,7 +37,9 @@ namespace Hypersphere
         public ScreenshotAreaControl()
         {
             systemUC = new SystemUC();
+            Panel.SetZIndex(systemUC, 1000);// нельзя рисовать поверх
             paintUC = new PaintUC();
+            Panel.SetZIndex(paintUC, 1000);// нельзя рисовать поверх
         }
 
         public bool IsDoExistAndIsPencilDraw()

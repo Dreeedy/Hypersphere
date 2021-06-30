@@ -29,6 +29,9 @@ namespace Hypersphere.ScreenshotArea
         IDrawingPencil drawingPencil;
         IScreenshotAreaControl screenshotAreaControl;
 
+
+
+        // TODO: запретить рисовать поверх gridSplitters
         public ScreenshotWindow()
         {
             InitializeComponent();
@@ -38,6 +41,8 @@ namespace Hypersphere.ScreenshotArea
             screenshotAreaControl = new ScreenshotAreaControl();
         }
 
+
+
         #region Event_Handlers      
         private void mainGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -45,7 +50,7 @@ namespace Hypersphere.ScreenshotArea
 
             mouseCoordinates.SetPreviousMouseCoordinates(mainGrid, e);
             
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && screenshotAreaControl.IsDoExistAndIsPencilDraw())
+            if (isLeftMouseButtonPressed == true && screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 drawingPencil.CreatePencil(paintAndUserControlsCanvas);
             }
@@ -56,7 +61,7 @@ namespace Hypersphere.ScreenshotArea
             mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
             mouseCoordinates.СalculateOffsetMouseCoordinates();
 
-            if (isLeftMouseButtonPressed == true && screenshotArea == null && screenshotAreaControl.IsDoExistAndIsPencilDraw())
+            if (isLeftMouseButtonPressed == true && screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 Point previousCoordinates = mouseCoordinates.GetPreviousMouseCoordinates();
                 Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
@@ -72,12 +77,26 @@ namespace Hypersphere.ScreenshotArea
 
         private void screenshotAreaGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            {
+                GridSplittersEnabledToFalse();
+                return;
+            }
+            GridSplittersEnabledToTrue();
+
             screenshotArea = sender as UIElement;
             screenshotArea.CaptureMouse();
         }
-
+        
         private void screenshotAreaGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            {
+                GridSplittersEnabledToFalse();
+                return;
+            }
+            GridSplittersEnabledToTrue();
+
             if (screenshotArea == null)
             {
                 return;
@@ -89,6 +108,13 @@ namespace Hypersphere.ScreenshotArea
 
         private void screenshotAreaGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            {
+                GridSplittersEnabledToFalse();
+                return;
+            }
+            GridSplittersEnabledToTrue();
+
             screenshotArea.ReleaseMouseCapture();
 
             // отображение controls происходит только тогда, когда форма не screenshotArea
@@ -133,6 +159,8 @@ namespace Hypersphere.ScreenshotArea
             screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
         }        
         #endregion
+
+
 
         private void MoveScreenshotArea()
         {
@@ -194,6 +222,46 @@ namespace Hypersphere.ScreenshotArea
                 cdRight.Width = new GridLength(cdRight.ActualWidth + offset.X);
             }
             cdLeft.Width = new GridLength(cdLeft.ActualWidth - offset.X);
-        }       
+        }
+
+        private void GridSplittersEnabledToTrue()
+        {
+            if (!gsTop.IsEnabled)
+            {
+                gsTop.IsEnabled = true;
+            }
+            if (!gsBottom.IsEnabled)
+            {
+                gsBottom.IsEnabled = true;
+            }
+            if (!gsLeft.IsEnabled)
+            {
+                gsLeft.IsEnabled = true;
+            }
+            if (!gsRight.IsEnabled)
+            {
+                gsRight.IsEnabled = true;
+            }
+        }
+
+        private void GridSplittersEnabledToFalse()
+        {
+            if (gsTop.IsEnabled)
+            {
+                gsTop.IsEnabled = false;
+            }
+            if (gsBottom.IsEnabled)
+            {
+                gsBottom.IsEnabled = false;
+            }
+            if (gsLeft.IsEnabled)
+            {
+                gsLeft.IsEnabled = false;
+            }
+            if (gsRight.IsEnabled)
+            {
+                gsRight.IsEnabled = false;
+            }
+        }
     }
 }
