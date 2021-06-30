@@ -14,17 +14,28 @@ namespace Hypersphere
     {
         const int PICTURE_SIZE_AND_PADDING = 34; // размер image у screenshotArea controls и padding
         const int GRID_SPLITTER_THICKNESS_AND_PADDING = 6; // толшина gridSplitter и padding
-                                                           // 
+
+        // TODO: refactor
+        const int SYSTEMUC_HEIGHT = PICTURE_SIZE_AND_PADDING;
+        const int SYSTEMUC_WIDTH = 102;
+
+        const int PAINTUC_HEIGHT = 272;
+        const int PAINTUC_WIDTH = PICTURE_SIZE_AND_PADDING;
+
         SystemUC systemUC; // всегда расположен вертикально
         PaintUC paintUC; // всегда расположен горизонтально
 
-        Point paintUCCoordinate;
         Point systemUCCoordinate;
-        
+        Point paintUCCoordinate;
 
+        bool isSystemUCNotFit;
+        bool isPaintUCNotFit;
+
+        Point systemUCOffset;
+        Point paintUCOffset;
 
         public ScreenshotAreaControl()
-        {            
+        {
             systemUC = new SystemUC();
             paintUC = new PaintUC();
         }
@@ -57,30 +68,45 @@ namespace Hypersphere
             RowDefinition rdUp, RowDefinition rdDown,
             ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
-            // TODO: исключить пересечение UC друг с другом
-            // TODO: привязать элементы управления к правому нижнему углу, это позволит решить проблему пересечения
-            // TODO: controls не должны уходить за границу экрана
-
+            // TODO: refactor
             if (!parent.Children.Contains(paintUC) && !parent.Children.Contains(systemUC))
             {
-                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown);
+                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown, cdLeft, cdRight);              
+                CalculatePaintUCCoordinate(screenshotAreaGrid, rdUp, rdDown, cdLeft, cdRight);
+                if (isSystemUCNotFit & isPaintUCNotFit)
+                {
+                    // не рисуем
+                }
+                else
+                {
+                    SetOnCanvas(screenshotAreaGrid);
+                }               
+
                 parent.Children.Add(systemUC);
 
-                CalculatePaintUCCoordinate(screenshotAreaGrid, cdLeft, cdRight);
                 paintUC.elementCollection = parent.Children;// чтобы можно было стирать нарисованное
                 parent.Children.Add(paintUC);
             }
             else
             {
-                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown);
-                CalculatePaintUCCoordinate(screenshotAreaGrid, cdLeft, cdRight);
+                CalculateSystemUCCoordinate(screenshotAreaGrid, rdUp, rdDown, cdLeft, cdRight);
+                CalculatePaintUCCoordinate(screenshotAreaGrid, rdUp, rdDown, cdLeft, cdRight);
+
+                if (isSystemUCNotFit & isPaintUCNotFit)
+                {
+                    // не рисуем
+                }
+                else
+                {
+                    SetOnCanvas(screenshotAreaGrid);
+                }
             }
             Show();
         }
 
 
 
-        private void CalculateSystemUCCoordinate(FrameworkElement screenshotAreaGrid, RowDefinition rdUp, RowDefinition rdDown)
+        private void CalculateSystemUCCoordinate(FrameworkElement screenshotAreaGrid, RowDefinition rdUp, RowDefinition rdDown, ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
             systemUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
 
@@ -96,20 +122,26 @@ namespace Hypersphere
             {
                 systemUCCoordinate.Y += screenshotAreaGrid.ActualHeight - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
             }
-
-            if (systemUCCoordinate.Y >= 0 && systemUCCoordinate.X + screenshotAreaGrid.ActualWidth - 102 >= 0)
+            // offset чтобы systemUC не выходил за левую границу экрана
+            systemUCOffset.Y = 0;
+            systemUCOffset.X = 0;
+            isSystemUCNotFit = false;
+            if (cdLeft.ActualWidth <= SYSTEMUC_WIDTH && screenshotAreaGrid.ActualWidth <= SYSTEMUC_WIDTH)// left
             {
-                Canvas.SetTop(systemUC, systemUCCoordinate.Y);
-                Canvas.SetLeft(systemUC, systemUCCoordinate.X + screenshotAreaGrid.ActualWidth - 102);
+                systemUCOffset.X = SYSTEMUC_WIDTH - screenshotAreaGrid.ActualWidth;
+                isSystemUCNotFit = true;
             }
-            else
+            if (cdRight.ActualWidth <= SYSTEMUC_WIDTH && screenshotAreaGrid.ActualWidth <= SYSTEMUC_WIDTH)// right
             {
-                Canvas.SetTop(systemUC, 0);// разделить
-                Canvas.SetLeft(systemUC, 0);
+                // TODO: плавное перемещение to left
+                // TODO: исправить баги с перемещением
+                systemUCOffset.X = (screenshotAreaGrid.ActualWidth) * -1;// чтобы смещать влево 
+                isSystemUCNotFit = true;
             }
-        }
+            Debug.WriteLine(systemUCOffset.X);
+        }        
 
-        private void CalculatePaintUCCoordinate(FrameworkElement screenshotAreaGrid, ColumnDefinition cdLeft, ColumnDefinition cdRight)
+        private void CalculatePaintUCCoordinate(FrameworkElement screenshotAreaGrid, RowDefinition rdUp, RowDefinition rdDown,  ColumnDefinition cdLeft, ColumnDefinition cdRight)
         {
             paintUCCoordinate = screenshotAreaGrid.PointToScreen(new Point(0, 0));
 
@@ -125,7 +157,30 @@ namespace Hypersphere
             {
                 paintUCCoordinate.X += screenshotAreaGrid.ActualWidth - (GRID_SPLITTER_THICKNESS_AND_PADDING + PICTURE_SIZE_AND_PADDING);
             }
-            Canvas.SetTop(paintUC, paintUCCoordinate.Y + screenshotAreaGrid.ActualHeight - 272);
+            // offset чтобы paintUC не выходил за верхнюю границу экрана
+            paintUCOffset.Y = 0;
+            paintUCOffset.X = 0;
+            isPaintUCNotFit = false;
+            if (rdUp.ActualHeight <= PAINTUC_HEIGHT && screenshotAreaGrid.ActualHeight <= PAINTUC_HEIGHT)// top
+            {
+                paintUCOffset.Y = PAINTUC_HEIGHT - screenshotAreaGrid.ActualHeight;
+                isPaintUCNotFit = true;
+            }
+            // TODO: плавное перемещние to bottom
+            // TODO: исправить баги с перемещением
+            if (rdDown.ActualHeight <= PAINTUC_HEIGHT && screenshotAreaGrid.ActualHeight <= PAINTUC_HEIGHT)// bottom
+            {
+                paintUCOffset.Y = (screenshotAreaGrid.ActualHeight) * -1;
+                isPaintUCNotFit = true;
+            }
+        }
+
+        private void SetOnCanvas(FrameworkElement screenshotAreaGrid)
+        {
+            Canvas.SetTop(systemUC, systemUCCoordinate.Y);
+            Canvas.SetLeft(systemUC, systemUCCoordinate.X + screenshotAreaGrid.ActualWidth - SYSTEMUC_WIDTH + systemUCOffset.X);// ориентация от правого нижнего угла
+
+            Canvas.SetTop(paintUC, paintUCCoordinate.Y + screenshotAreaGrid.ActualHeight - PAINTUC_HEIGHT + paintUCOffset.Y);// ориентация от правого нижнего угла
             Canvas.SetLeft(paintUC, paintUCCoordinate.X);
         }
 
