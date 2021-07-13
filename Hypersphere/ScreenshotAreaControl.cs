@@ -45,7 +45,7 @@ namespace Hypersphere
         public bool IsDoExistAndIsPencilDraw()
         {
             bool exist = IsDoExist();
-            bool isPencilDraw = paintUC.IsAnyBrushDraw();
+            bool isPencilDraw = paintUC.IsPencilDraw();
 
             if (exist && isPencilDraw)
             {

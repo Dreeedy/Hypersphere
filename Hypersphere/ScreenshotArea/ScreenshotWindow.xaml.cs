@@ -77,7 +77,7 @@ namespace Hypersphere.ScreenshotArea
 
         private void screenshotAreaGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 GridSplittersEnabledToFalse();
                 return;
@@ -90,7 +90,7 @@ namespace Hypersphere.ScreenshotArea
         
         private void screenshotAreaGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 GridSplittersEnabledToFalse();
                 return;
@@ -108,7 +108,7 @@ namespace Hypersphere.ScreenshotArea
 
         private void screenshotAreaGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())// если рисую
+            if (screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 GridSplittersEnabledToFalse();
                 return;
