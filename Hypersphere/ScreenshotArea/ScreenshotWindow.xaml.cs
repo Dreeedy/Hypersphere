@@ -31,7 +31,7 @@ namespace Hypersphere.ScreenshotArea
 
 
 
-        // TODO: запретить рисовать поверх gridSplitters
+        // TODO: запретить рисовать поверх gridSplitters. Скорее всего реализовать не получится
         public ScreenshotWindow()
         {
             InitializeComponent();
@@ -144,8 +144,7 @@ namespace Hypersphere.ScreenshotArea
 
         private void GridSplittersHandler_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
-            // TODO: запретить рисование во время изменения размеров формы
-            // TODO: или запретить измененение формы во время рисования
+
         }
 
         private void GridSplittersHandler_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
