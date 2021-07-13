@@ -20,6 +20,8 @@ namespace Hypersphere.UserControls
     /// </summary>
     public partial class SystemUC : UserControl
     {
+        private Image image;
+
         public SystemUC()
         {
             InitializeComponent();
@@ -29,5 +31,41 @@ namespace Hypersphere.UserControls
         {
             Application.Current.Shutdown();
         }
+
+        private void copyImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/copy_32x32_enabled.png"));
+        }
+
+        private void copyImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/copy_32x32_disabled.png"));
+        }
+
+        private void saveImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/save_32x32_enabled.png"));
+        }
+
+        private void saveImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/save_32x32_disabled.png"));
+        }
+
+        private void closeImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/close_32x32_enabled.png"));
+        }
+
+        private void closeImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            image = sender as Image;
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/close_32x32_disabled.png"));
+        }        
     }
 }

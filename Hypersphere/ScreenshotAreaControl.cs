@@ -45,7 +45,7 @@ namespace Hypersphere
         public bool IsDoExistAndIsPencilDraw()
         {
             bool exist = IsDoExist();
-            bool isPencilDraw = paintUC.IsPencilDraw();
+            bool isPencilDraw = paintUC.IsAnyBrushDraw();
 
             if (exist && isPencilDraw)
             {
@@ -135,8 +135,6 @@ namespace Hypersphere
             }
             if (cdRight.ActualWidth <= SYSTEMUC_WIDTH && screenshotAreaGrid.ActualWidth <= SYSTEMUC_WIDTH)// right
             {
-                // TODO: плавное перемещение to left
-                // TODO: исправить баги с перемещением
                 systemUCOffset.X = (screenshotAreaGrid.ActualWidth) * -1;// чтобы смещать влево 
                 isSystemUCNotFit = true;
             }
@@ -168,8 +166,7 @@ namespace Hypersphere
                 paintUCOffset.Y = PAINTUC_HEIGHT - screenshotAreaGrid.ActualHeight;
                 isPaintUCNotFit = true;
             }
-            // TODO: плавное перемещние to bottom
-            // TODO: исправить баги с перемещением
+
             if (rdDown.ActualHeight <= PAINTUC_HEIGHT && screenshotAreaGrid.ActualHeight <= PAINTUC_HEIGHT)// bottom
             {
                 paintUCOffset.Y = (screenshotAreaGrid.ActualHeight) * -1;
