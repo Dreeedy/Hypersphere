@@ -9,6 +9,26 @@
 
   <ItemGroup>
     <None Remove="icon_ico_32x32.ico" />
+    <None Remove="Resource\Icons\arrow_32x32_disabled.png" />
+    <None Remove="Resource\Icons\arrow_32x32_enabled.png" />
+    <None Remove="Resource\Icons\close_32x32_disabled.png" />
+    <None Remove="Resource\Icons\close_32x32_enabled.png" />
+    <None Remove="Resource\Icons\copy_32x32_disabled.png" />
+    <None Remove="Resource\Icons\copy_32x32_enabled.png" />
+    <None Remove="Resource\Icons\line_32x32_disabled.png" />
+    <None Remove="Resource\Icons\line_32x32_enabled.png" />
+    <None Remove="Resource\Icons\marker_32x32_disabled.png" />
+    <None Remove="Resource\Icons\marker_32x32_enabled.png" />
+    <None Remove="Resource\Icons\pencil_32x32_disabled.png" />
+    <None Remove="Resource\Icons\pencil_32x32_enabled.png" />
+    <None Remove="Resource\Icons\rectangle_32x32_disabled.png" />
+    <None Remove="Resource\Icons\rectangle_32x32_enabled.png" />
+    <None Remove="Resource\Icons\save_32x32_disabled.png" />
+    <None Remove="Resource\Icons\save_32x32_enabled.png" />
+    <None Remove="Resource\Icons\text_32x32_disabled.png" />
+    <None Remove="Resource\Icons\text_32x32_enabled.png" />
+    <None Remove="Resource\Icons\undo_32x32_disabled.png" />
+    <None Remove="Resource\Icons\undo_32x32_enabled.png" />
     <None Remove="Resource\Plugs\plug_active_32x32.png" />
     <None Remove="Resource\plug_10_32x32.png" />
     <None Remove="Resource\plug_11_32x32.png" />
@@ -29,6 +49,66 @@
 
   <ItemGroup>
     <Resource Include="icon_ico_32x32.ico" />
+    <Resource Include="Resource\Icons\arrow_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\arrow_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\close_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\close_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\copy_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\copy_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\line_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\line_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\marker_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\marker_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\pencil_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\pencil_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\rectangle_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\rectangle_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\save_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\save_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\text_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\text_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\undo_32x32_disabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Icons\undo_32x32_enabled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resource\Plugs\plug_10_32x32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

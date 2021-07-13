@@ -10,22 +10,30 @@
         Orientation="Horizontal"
                 Height="auto"
                 Width="auto">
-        <Image Height="32"
+        <Image x:Name="copyImage"
+               Height="32"
                Width="32"
                Margin="1"
                ToolTip="Копировать (CTRL + C)"
-               Source="/Resource/Plugs/plug_9_32x32.png"></Image>
-        <Image Height="32"
+               Source="/Resource/Icons/copy_32x32_disabled.png"
+               MouseEnter="copyImage_MouseEnter"
+               MouseLeave="copyImage_MouseLeave" />
+        <Image x:Name="saveImage"
+               Height="32"
                Width="32"
                Margin="1"
                ToolTip="Сохранить (CTRL + S)"
-               Source="/Resource/Plugs/plug_10_32x32.png"></Image>
+               Source="/Resource/Icons/save_32x32_disabled.png"
+               MouseEnter="saveImage_MouseEnter"
+               MouseLeave="saveImage_MouseLeave" />
         <Image x:Name="closeImage" 
             Height="32"
                Width="32"
                Margin="1"
                ToolTip="Закрыть (CTRL + X)"
-               Source="/Resource/Plugs/plug_11_32x32.png"
-               PreviewMouseUp="closeImage_PreviewMouseUp"></Image>
+               Source="/Resource/Icons/close_32x32_disabled.png"
+               PreviewMouseUp="closeImage_PreviewMouseUp"
+               MouseEnter="closeImage_MouseEnter"
+               MouseLeave="closeImage_MouseLeave"></Image>
     </StackPanel>
 </UserControl>
