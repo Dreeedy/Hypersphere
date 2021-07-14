@@ -392,6 +392,11 @@ namespace Hypersphere.UserControls
             image = sender as Image;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/undo_32x32_disabled.png"));
         }
+
+        private void colorImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            SelectedColor.ColorDialogAndSetBrushColor(colorImage);
+        }
         #endregion Event_handlers
     }
 }

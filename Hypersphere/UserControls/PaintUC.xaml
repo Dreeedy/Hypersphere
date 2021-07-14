@@ -65,12 +65,13 @@
                MouseEnter="textImage_MouseEnter"
                MouseLeave="textImage_MouseLeave"
                PreviewMouseUp="textImage_PreviewMouseUp" />
-        <Image x:Name="colorImage"
+        <Rectangle x:Name="colorImage"
                Height="32"
                Width="32"
                Margin="1"
-               ToolTip="Цвет"
-               Source="/Resource/Plugs/plug_7_32x32.png"></Image>
+               ToolTip="Цвет"               
+               PreviewMouseUp="colorImage_PreviewMouseUp"
+                   Fill="Red"></Rectangle>
         <Image x:Name="undoImage"
                Height="32"
                Width="32"
