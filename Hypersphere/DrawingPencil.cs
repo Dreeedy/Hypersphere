@@ -7,30 +7,70 @@ namespace Hypersphere
 {
     class DrawingPencil : IDrawingPencil
     {
-        Path path;
-        GeometryGroup geometryGroup;
+        #region Public_Static_Constants
 
+        #endregion Public_Static_Constants
+
+
+
+        #region Private_Static_Fields
+
+        #endregion Private_Static_Fields     
+
+
+
+        #region Private_Fields
+        private Path _path;
+        private GeometryGroup _geometryGroup;
+        private SelectedColor _selectedColor;
+        #endregion Private_Fields
+
+
+
+        #region Properties
+
+        #endregion Properties
+
+
+
+        #region Public_Methods
+        public DrawingPencil()
+        {
+            _selectedColor = new SelectedColor();
+        }
         public void CreatePencil(Canvas canvasForDraw)
         {
             // TODO: нормальная инициализация карандаша
             // TODO: максимально вынести рисование в отдельный класс
-            path = new Path();
-            path.Stroke = SelectedColor.SelectedSolidColorBrush;
-            path.StrokeThickness = 2;
+            _path = new Path();
+            _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
+            _path.StrokeThickness = 2;
 
-            geometryGroup = new GeometryGroup();            
-            path.Data = geometryGroup;
+            _geometryGroup = new GeometryGroup();
+            _path.Data = _geometryGroup;
 
-            canvasForDraw.Children.Add(path);
+            canvasForDraw.Children.Add(_path);
         }
-
         public void DrawLineGeometry(Point start, Point end)
         {
             LineGeometry line = new LineGeometry();
             line.StartPoint = start;
             line.EndPoint = end;
 
-            geometryGroup.Children.Add(line);
+            _geometryGroup.Children.Add(line);
         }
+        #endregion Public_Methods
+
+
+
+        #region Private_Methods
+
+        #endregion Private_Methods
+
+
+
+        #region Event_handlers
+
+        #endregion Event_handlers
     }
 }
