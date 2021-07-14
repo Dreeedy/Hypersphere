@@ -37,6 +37,7 @@ namespace Hypersphere.ScreenshotArea
         IScreenshotAreaControl _screenshotAreaControl;
         IDrawingPencil _drawingPencil;
         IDrawingLine _drawingLine;
+        DrawingArrow _drawingArrow;
         #endregion Private_Fields
 
 
@@ -57,6 +58,7 @@ namespace Hypersphere.ScreenshotArea
             _screenshotAreaControl = new ScreenshotAreaControl();
             _drawingPencil = new DrawingPencil();
             _drawingLine = new DrawingLine();
+            _drawingArrow = new DrawingArrow();
         }
         #endregion Public_Methods
 
@@ -180,6 +182,13 @@ namespace Hypersphere.ScreenshotArea
 
                 _drawingLine.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
+            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
+            {
+                _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
+                Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
+
+                _drawingArrow.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
+            }
         }
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
@@ -196,6 +205,10 @@ namespace Hypersphere.ScreenshotArea
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsLineDraw())
             {
                 _drawingLine.UpdateEndPoint(currentCoordinates);
+            }
+            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
+            {
+                _drawingArrow.UpdateEndPoint(currentCoordinates);
             }
 
             _mouseCoordinates.UpdatePreviousMouseCoordinates();
