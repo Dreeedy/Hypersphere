@@ -42,21 +42,6 @@ namespace Hypersphere
             Panel.SetZIndex(paintUC, 1000);// нельзя рисовать поверх
         }
 
-        public bool IsDoExistAndIsPencilDraw()
-        {
-            bool exist = IsDoExist();
-            bool isPencilDraw = paintUC.IsPencilDraw();
-
-            if (exist && isPencilDraw)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public bool IsDoExistAndIsAnyBrushDraw()
         {
             bool exist = IsDoExist();
@@ -71,7 +56,34 @@ namespace Hypersphere
                 return false;
             }
         }
+        public bool IsDoExistAndIsPencilDraw()
+        {
+            bool exist = IsDoExist();
+            bool isPencilDraw = paintUC.IsPencilDraw();
 
+            if (exist && isPencilDraw)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool IsDoExistAndIsLineDraw()
+        {
+            bool exist = IsDoExist();
+            bool isLineDraw = paintUC.IsLineDraw();
+
+            if (exist && isLineDraw)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void IsDoExistAndHide()
         {
             bool isExist = IsDoExist();

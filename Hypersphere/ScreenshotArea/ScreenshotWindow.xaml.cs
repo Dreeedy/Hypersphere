@@ -28,6 +28,7 @@ namespace Hypersphere.ScreenshotArea
         IMouseCoordinates mouseCoordinates;
         IDrawingPencil drawingPencil;
         IScreenshotAreaControl screenshotAreaControl;
+        IDrawingLine _drawingLine;
 
 
 
@@ -39,6 +40,7 @@ namespace Hypersphere.ScreenshotArea
             mouseCoordinates = new MouseCoordinates();
             drawingPencil = new DrawingPencil();
             screenshotAreaControl = new ScreenshotAreaControl();
+            _drawingLine = new DrawingLine();
         }
 
 
@@ -54,6 +56,13 @@ namespace Hypersphere.ScreenshotArea
             {
                 drawingPencil.CreatePencil(paintAndUserControlsCanvas);
             }
+            if (isLeftMouseButtonPressed == true && screenshotAreaControl.IsDoExistAndIsLineDraw())
+            {
+                mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
+                Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
+
+                _drawingLine.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
+            }            
         }
 
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -61,17 +70,22 @@ namespace Hypersphere.ScreenshotArea
             mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
             mouseCoordinates.СalculateOffsetMouseCoordinates();
 
+            Point previousCoordinates = mouseCoordinates.GetPreviousMouseCoordinates();
+            Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
+
             if (isLeftMouseButtonPressed == true && screenshotAreaControl.IsDoExistAndIsPencilDraw())
-            {
-                Point previousCoordinates = mouseCoordinates.GetPreviousMouseCoordinates();
-                Point currentCoordinates = mouseCoordinates.GetCurrentMouseCoordinates();
+            {                
                 drawingPencil.DrawLineGeometry(previousCoordinates, currentCoordinates);
+            }
+            if (isLeftMouseButtonPressed == true && screenshotAreaControl.IsDoExistAndIsLineDraw())
+            {
+                _drawingLine.UpdateEndPoint(currentCoordinates);
             }
             mouseCoordinates.UpdatePreviousMouseCoordinates();
         }
 
         private void mainGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {           
+        {
             isLeftMouseButtonPressed = false;
         }
 
