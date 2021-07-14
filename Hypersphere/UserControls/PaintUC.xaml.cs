@@ -102,7 +102,10 @@ namespace Hypersphere.UserControls
         private void RemoveLastChildren(UIElementCollection elementCollection)
         {
             int count = elementCollection.Count;
-            elementCollection.RemoveAt(count - 1);
+            if (count > 2)// Чтобы не удалял PaintUC
+            {
+                elementCollection.RemoveAt(count - 1);
+            }            
         }     
 
         private void DisableAllElementsForDrawing()
