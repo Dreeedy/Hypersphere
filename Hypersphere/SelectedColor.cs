@@ -21,7 +21,7 @@ namespace Hypersphere
 
 
         #region Private_Static_Fields
-        private static SolidColorBrush _selectedSolidColorBrushColor;// т.к одновременно можно использовать только один цвет
+        private static SolidColorBrush s_selectedSolidColorBrushColor;// т.к одновременно можно использовать только один цвет
         #endregion Private_Static_Fields     
 
 
@@ -35,11 +35,11 @@ namespace Hypersphere
         #region Properties        
         private SolidColorBrush GetSolidColorBrushColor()
         {
-            return _selectedSolidColorBrushColor;
+            return s_selectedSolidColorBrushColor;
         }
         private void SetSolidColorBrushColor(SolidColorBrush value)
         {
-            _selectedSolidColorBrushColor = value;
+            s_selectedSolidColorBrushColor = value;
         }
         private SolidColorBrush GetDefaultSolidBrushColor()
         {
@@ -66,7 +66,7 @@ namespace Hypersphere
         }
         public SolidColorBrush GetSelectedOrDefaultSolidColorBrush()
         {
-            if (_selectedSolidColorBrushColor == null)
+            if (s_selectedSolidColorBrushColor == null)
             {
                 return GetDefaultSolidBrushColor();
             }
