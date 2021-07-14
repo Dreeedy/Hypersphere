@@ -6,6 +6,7 @@ namespace Hypersphere
 {
     interface IScreenshotAreaControl
     {
+        public bool IsDoExistAndIsAnyBrushDraw();
         public bool IsDoExistAndIsPencilDraw();
         public void IsDoExistAndHide();
         public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent, RowDefinition rdUp, RowDefinition rdDown, ColumnDefinition cdLeft, ColumnDefinition cdRight);
