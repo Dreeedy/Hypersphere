@@ -14,7 +14,7 @@ namespace Hypersphere
         {
             // TODO: нормальная инициализация карандаша
             path = new Path();
-            path.Stroke = Brushes.Aquamarine;
+            path.Stroke = SelectedColor.SelectedSolidColorBrush;
             path.StrokeThickness = 2;
 
             geometryGroup = new GeometryGroup();            

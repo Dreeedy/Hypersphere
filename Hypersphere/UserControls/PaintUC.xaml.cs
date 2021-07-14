@@ -50,7 +50,6 @@ namespace Hypersphere.UserControls
             allElementsForDrawingDictionary.Add(rectangleImage.Name, false);
             allElementsForDrawingDictionary.Add(markerImage.Name, false);
             allElementsForDrawingDictionary.Add(textImage.Name, false);
-            // TODO: отдельную ветку для "выбор цвета" и тд
         }
 
         public bool IsAnyBrushDraw()
