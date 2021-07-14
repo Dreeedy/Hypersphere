@@ -11,6 +11,8 @@ namespace Hypersphere
     /// </summary>
     public partial class App : Application
     {
+        // TODO: все приватные перенные должны начинаться с _
+        // TODO: везде внедрить #region
         TaskbarIcon notifyIcon;
         static KeyboardHookManager keyboardHookManager;
 

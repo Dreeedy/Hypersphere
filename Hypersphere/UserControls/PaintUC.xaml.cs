@@ -21,20 +21,32 @@ namespace Hypersphere.UserControls
     /// </summary>
     public partial class PaintUC : UserControl
     {
-        #region Public_Properties
-        public UIElementCollection elementCollection
-        {
-            get; set;
-        }
-        #endregion Public_Properties
+        #region Public_Static_Constants
+
+        #endregion Public_Static_Constants
+
+
+
+        #region Private_Static_Fields
+
+        #endregion Private_Static_Fields     
 
 
 
         #region Private_Fields
-        private bool isAnyBrushDraw;
-        private Dictionary<string, bool> allElementsForDrawingDictionary;
-        private Image image;
+        private bool _isAnyBrushDraw;
+        private Dictionary<string, bool> _allElementsForDrawingDictionary;
+        private Image _image;
         #endregion Private_Fields
+
+
+
+        #region Properties
+        public UIElementCollection elementCollection
+        {
+            get; set;
+        }
+        #endregion Properties
 
 
 
@@ -43,46 +55,46 @@ namespace Hypersphere.UserControls
         {
             InitializeComponent();
 
-            allElementsForDrawingDictionary = new Dictionary<string, bool>();
-            allElementsForDrawingDictionary.Add(pencilImage.Name, false);
-            allElementsForDrawingDictionary.Add(lineImale.Name, false);
-            allElementsForDrawingDictionary.Add(arrowImage.Name, false);
-            allElementsForDrawingDictionary.Add(rectangleImage.Name, false);
-            allElementsForDrawingDictionary.Add(markerImage.Name, false);
-            allElementsForDrawingDictionary.Add(textImage.Name, false);
+            _allElementsForDrawingDictionary = new Dictionary<string, bool>();
+            _allElementsForDrawingDictionary.Add(pencilImage.Name, false);
+            _allElementsForDrawingDictionary.Add(lineImale.Name, false);
+            _allElementsForDrawingDictionary.Add(arrowImage.Name, false);
+            _allElementsForDrawingDictionary.Add(rectangleImage.Name, false);
+            _allElementsForDrawingDictionary.Add(markerImage.Name, false);
+            _allElementsForDrawingDictionary.Add(textImage.Name, false);
 
             // TODO: refactor class
         }
 
         public bool IsAnyBrushDraw()
         {
-            isAnyBrushDraw = ChekIsAnyBrushDraw();
-            return isAnyBrushDraw;
+            _isAnyBrushDraw = ChekIsAnyBrushDraw();
+            return _isAnyBrushDraw;
         }
 
         public bool IsPencilDraw()
         {
-            return allElementsForDrawingDictionary[pencilImage.Name];
+            return _allElementsForDrawingDictionary[pencilImage.Name];
         }
         public bool IsLineDraw()
         {
-            return allElementsForDrawingDictionary[lineImale.Name];
+            return _allElementsForDrawingDictionary[lineImale.Name];
         }
         public bool IsArrowDraw()
         {
-            return allElementsForDrawingDictionary[arrowImage.Name];
+            return _allElementsForDrawingDictionary[arrowImage.Name];
         }
         public bool IsRectangleDraw()
         {
-            return allElementsForDrawingDictionary[rectangleImage.Name];
+            return _allElementsForDrawingDictionary[rectangleImage.Name];
         }
         public bool IsMarkerDraw()
         {
-            return allElementsForDrawingDictionary[markerImage.Name];
+            return _allElementsForDrawingDictionary[markerImage.Name];
         }
         public bool IsTextDraw()
         {
-            return allElementsForDrawingDictionary[textImage.Name];
+            return _allElementsForDrawingDictionary[textImage.Name];
         }
         #endregion Public_Functions
 
@@ -91,15 +103,15 @@ namespace Hypersphere.UserControls
         #region Private_Functions
         private bool ChekIsAnyBrushDraw()
         {
-            foreach (var item in allElementsForDrawingDictionary)
+            foreach (var item in _allElementsForDrawingDictionary)
             {
                 if (item.Value == true)
                 {
                     return true;
-                }                
+                }
             }
             return false;
-        }      
+        }
 
         private void RemoveLastChildren(UIElementCollection elementCollection)
         {
@@ -107,8 +119,8 @@ namespace Hypersphere.UserControls
             if (count > 2)// Чтобы не удалял PaintUC
             {
                 elementCollection.RemoveAt(count - 1);
-            }            
-        }     
+            }
+        }
 
         private void DisableAllElementsForDrawing()
         {
@@ -124,42 +136,42 @@ namespace Hypersphere.UserControls
         {
             Image image = pencilImage;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
 
         private void DisableLineImage()
         {
             Image image = lineImale;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
 
         private void DisableArrowImage()
         {
             Image image = arrowImage;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
 
         private void DisableRectangleImage()
         {
             Image image = rectangleImage;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
 
         private void DisableMarkerImage()
         {
             Image image = markerImage;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
 
         private void DisableTextImage()
         {
             Image image = textImage;
             image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_disabled.png"));
-            allElementsForDrawingDictionary[image.Name] = false;
+            _allElementsForDrawingDictionary[image.Name] = false;
         }
         #endregion Private_Functions
 
@@ -168,91 +180,91 @@ namespace Hypersphere.UserControls
         #region Event_handlers
         private void pencilImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisablePencilImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
         private void lineImale_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableLineImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
         private void arrowImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableArrowImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
         private void rectangleImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableRectangleImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
         private void markerImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableMarkerImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
         private void textImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableTextImage();
             }
             else
             {
                 DisableAllElementsForDrawing();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_enabled.png"));
-                allElementsForDrawingDictionary[image.Name] = true;
+                _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_enabled.png"));
+                _allElementsForDrawingDictionary[_image.Name] = true;
             }
         }
 
@@ -267,134 +279,134 @@ namespace Hypersphere.UserControls
 
         private void pencilImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
         }
 
         private void pencilImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_disabled.png"));
         }
 
         private void lineImale_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_enabled.png"));
         }
 
         private void lineImale_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/line_32x32_disabled.png"));
         }
 
         private void arrowImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_enabled.png"));
         }
 
         private void arrowImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_disabled.png"));
         }
 
         private void rectangleImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_enabled.png"));
         }
 
         private void rectangleImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/rectangle_32x32_disabled.png"));
         }
 
         private void markerImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_enabled.png"));
         }
 
         private void markerImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/marker_32x32_disabled.png"));
         }
 
         private void textImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_enabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_enabled.png"));
         }
 
         private void textImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            if (allElementsForDrawingDictionary[image.Name])
+            _image = sender as Image;
+            if (_allElementsForDrawingDictionary[_image.Name])
             {
                 return;
             }
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_disabled.png"));
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/text_32x32_disabled.png"));
         }
 
         private void undoImage_MouseEnter(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/undo_32x32_enabled.png"));
+            _image = sender as Image;
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/undo_32x32_enabled.png"));
         }
 
         private void undoImage_MouseLeave(object sender, MouseEventArgs e)
         {
-            image = sender as Image;
-            image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/undo_32x32_disabled.png"));
+            _image = sender as Image;
+            _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/undo_32x32_disabled.png"));
         }
 
         private void colorImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)

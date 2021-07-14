@@ -13,6 +13,7 @@ namespace Hypersphere
         public void CreatePencil(Canvas canvasForDraw)
         {
             // TODO: нормальная инициализация карандаша
+            // TODO: максимально вынести рисование в отдельный класс
             path = new Path();
             path.Stroke = SelectedColor.SelectedSolidColorBrush;
             path.StrokeThickness = 2;

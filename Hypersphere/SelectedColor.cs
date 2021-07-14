@@ -8,6 +8,9 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
+    /// <summary>
+    /// Класс используется для хранения и передачи выбранного цвета для рисования
+    /// </summary>
     public static class SelectedColor
     {
         private static SolidColorBrush _selectedSolidColorBrush;
