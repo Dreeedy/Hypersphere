@@ -11,6 +11,7 @@ namespace Hypersphere
         public bool IsDoExistAndIsLineDraw();
         public bool IsDoExistAndIsArrowDraw();
         public bool IsDoExistAndIsRectangleDraw();
+        public bool IsDoExistAndIsMarkerDraw();
         public void IsDoExistAndHide();
         public void CreateAndAddOrShow(FrameworkElement screenshotAreaGrid, Canvas parent, RowDefinition rdUp, RowDefinition rdDown, ColumnDefinition cdLeft, ColumnDefinition cdRight);
     }

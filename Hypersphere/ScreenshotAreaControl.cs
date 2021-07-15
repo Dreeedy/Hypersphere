@@ -112,6 +112,20 @@ namespace Hypersphere
                 return false;
             }
         }
+        public bool IsDoExistAndIsMarkerDraw()
+        {
+            bool exist = IsDoExist();
+            bool isMarkerDraw = paintUC.IsMarkerDraw();
+
+            if (exist && isMarkerDraw)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void IsDoExistAndHide()
         {
             bool isExist = IsDoExist();
