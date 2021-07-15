@@ -37,7 +37,9 @@ namespace Hypersphere.ScreenshotArea
         IScreenshotAreaControl _screenshotAreaControl;
         IDrawingPencil _drawingPencil;
         IDrawingLine _drawingLine;
+        // TODO: сделать один общий интерфейс типо IDrawing или продолжить делать отдельные
         DrawingArrow _drawingArrow;
+        DrawingRectangle _drawingRectangle;
         #endregion Private_Fields
 
 
@@ -59,6 +61,7 @@ namespace Hypersphere.ScreenshotArea
             _drawingPencil = new DrawingPencil();
             _drawingLine = new DrawingLine();
             _drawingArrow = new DrawingArrow();
+            _drawingRectangle = new DrawingRectangle();
         }
         #endregion Public_Methods
 
@@ -189,6 +192,13 @@ namespace Hypersphere.ScreenshotArea
 
                 _drawingArrow.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
+            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
+            {
+                _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
+                Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
+
+                _drawingRectangle.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
+            }
         }
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
@@ -209,6 +219,10 @@ namespace Hypersphere.ScreenshotArea
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
             {
                 _drawingArrow.UpdateEndPoint(currentCoordinates);
+            }
+            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
+            {
+                _drawingRectangle.UpdateEndPoint(currentCoordinates);
             }
 
             _mouseCoordinates.UpdatePreviousMouseCoordinates();
