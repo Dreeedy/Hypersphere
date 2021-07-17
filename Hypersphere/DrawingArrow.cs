@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,7 +26,10 @@ namespace Hypersphere
         private GeometryGroup _geometryGroup;
         private SelectedColor _selectedColor;
         private LineGeometry _line;
-        private EllipseGeometry _ellipse;
+        private RectangleGeometry _rectangle;
+        private Size _size;
+        private RotateTransform _rotateTransform;
+        private Point _startPoint;
         #endregion Private_Fields
 
 
@@ -43,8 +47,11 @@ namespace Hypersphere
         }
         public void CreateAndSetPoints(Canvas canvasForDraw, Point startPoint)
         {
+            _startPoint = startPoint;
+
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
+            _path.Fill = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
             _path.StrokeThickness = 2;
 
             _geometryGroup = new GeometryGroup();
@@ -54,29 +61,45 @@ namespace Hypersphere
             _line.StartPoint = startPoint;
             _line.EndPoint = startPoint;
 
-            _ellipse = new EllipseGeometry();
-            _ellipse.RadiusX = 5;
-            _ellipse.RadiusY = 5;
-            _ellipse.Center = startPoint;
+            _rotateTransform = new RotateTransform();
+            _rotateTransform.Angle = CalculeAngle(_startPoint, startPoint);
+
+            _rectangle = new RectangleGeometry();
+            _size = new Size(4, 4);
+            _rectangle.Rect = new Rect(startPoint, _size);
+            _rectangle.Transform = _rotateTransform;
 
             _geometryGroup.Children.Add(_line);
-            _geometryGroup.Children.Add(_ellipse);
-
+            _geometryGroup.Children.Add(_rectangle);
 
             canvasForDraw.Children.Add(_path);
         }
         public void UpdateEndPoint(Point endPoint)
         {
-            Debug.WriteLine(endPoint);
             _line.EndPoint = endPoint;
-            _ellipse.Center = endPoint;
+
+            _rectangle.Rect = new Rect(endPoint, _size);
+
+            _rotateTransform.Angle = CalculeAngle(_startPoint, endPoint) - 45;
+            _rotateTransform.CenterX = endPoint.X;
+            _rotateTransform.CenterY = endPoint.Y;
+            _rectangle.Transform = _rotateTransform;
         }
         #endregion Public_Methods
 
 
 
         #region Private_Methods
+        private double CalculeAngle(Point startPoint, Point endPoint)
+        {
+            var deltaX = Math.Pow((endPoint.X - startPoint.X), 2);
+            var deltaY = Math.Pow((endPoint.Y - startPoint.Y), 2);
 
+            var radian = Math.Atan2((endPoint.Y - startPoint.Y), (endPoint.X - startPoint.X));
+            var angle = (radian * (180 / Math.PI) + 360) % 360;
+
+            return angle;
+        }
         #endregion Private_Methods
 
 
