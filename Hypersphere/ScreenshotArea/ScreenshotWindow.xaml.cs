@@ -41,6 +41,7 @@ namespace Hypersphere.ScreenshotArea
         DrawingArrow _drawingArrow;
         DrawingRectangle _drawingRectangle;
         DrawingMarker _drawingMarker;
+        DrawingText _drawingText;
         #endregion Private_Fields
 
 
@@ -64,6 +65,7 @@ namespace Hypersphere.ScreenshotArea
             _drawingArrow = new DrawingArrow();
             _drawingRectangle = new DrawingRectangle();
             _drawingMarker = new DrawingMarker();
+            _drawingText = new DrawingText();
         }
         #endregion Public_Methods
 
@@ -208,6 +210,13 @@ namespace Hypersphere.ScreenshotArea
 
                 _drawingMarker.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
+            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsTextDraw())
+            {
+                _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
+                Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
+
+                _drawingText.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
+            }
         }
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
@@ -237,7 +246,6 @@ namespace Hypersphere.ScreenshotArea
             {
                 _drawingMarker.UpdateEndPoint(currentCoordinates);
             }
-
             _mouseCoordinates.UpdatePreviousMouseCoordinates();
         }
         private void mainGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -282,7 +290,7 @@ namespace Hypersphere.ScreenshotArea
             }
             GridSplittersEnabledToTrue();
 
-            _screenshotArea.ReleaseMouseCapture();
+            _screenshotArea.ReleaseMouseCapture();// TODO: исправить баг, когда теряешь фокус на другом объекте
 
             // отображение controls происходит только тогда, когда форма не _screenshotArea
             _screenshotAreaControl.IsDoExistAndHide();
