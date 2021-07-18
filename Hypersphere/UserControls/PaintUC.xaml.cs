@@ -110,7 +110,7 @@ namespace Hypersphere.UserControls
             }
             return false;
         }
-        private void RemoveLastChildren(UIElementCollection elementCollection)
+        private void RemoveLastChildren()
         {
             int count = elementCollection.Count;
             if (count > 2)// Чтобы не удалял PaintUC
@@ -120,12 +120,16 @@ namespace Hypersphere.UserControls
         }
         private void DisableAllElementsForDrawing()
         {
+            if (ChekIsAnyBrushDraw())
+            {
+                RemoveLastChildren();// удаляет лишний элемент
+            }
             DisablePencilImage();
             DisableLineImage();
             DisableArrowImage();
             DisableRectangleImage();
             DisableMarkerImage();
-            DisableTextImage();
+            DisableTextImage();           
         }
         private void DisablePencilImage()
         {
@@ -175,12 +179,15 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisablePencilImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
                 DisableAllElementsForDrawing();
                 _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
                 _allElementsForDrawingDictionary[_image.Name] = true;
+
+                // проверка. если больше 2 то удаляем последний элемент
             }
         }
         private void lineImale_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -189,6 +196,7 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableLineImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
@@ -203,12 +211,13 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableArrowImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
                 DisableAllElementsForDrawing();
                 _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/arrow_32x32_enabled.png"));
-                _allElementsForDrawingDictionary[_image.Name] = true;
+                _allElementsForDrawingDictionary[_image.Name] = true;                
             }
         }
         private void rectangleImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -217,6 +226,7 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableRectangleImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
@@ -231,6 +241,7 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableMarkerImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
@@ -245,6 +256,7 @@ namespace Hypersphere.UserControls
             if (_allElementsForDrawingDictionary[_image.Name])
             {
                 DisableTextImage();
+                RemoveLastChildren();// удаляет лишний элемент
             }
             else
             {
@@ -259,7 +271,7 @@ namespace Hypersphere.UserControls
             {
                 return;
             }
-            RemoveLastChildren(elementCollection);
+            RemoveLastChildren();
         }
         private void pencilImage_MouseEnter(object sender, MouseEventArgs e)
         {
