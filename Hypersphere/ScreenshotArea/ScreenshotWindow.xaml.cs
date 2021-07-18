@@ -186,35 +186,30 @@ namespace Hypersphere.ScreenshotArea
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
-
                 _drawingLine.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
-
                 _drawingArrow.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
-
                 _drawingRectangle.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsMarkerDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
-
                 _drawingMarker.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
             if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsTextDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
-
                 _drawingText.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
         }
