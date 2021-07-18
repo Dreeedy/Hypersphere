@@ -290,8 +290,10 @@ namespace Hypersphere.ScreenshotArea
             }
             GridSplittersEnabledToTrue();
 
-            _screenshotArea.ReleaseMouseCapture();// TODO: исправить баг, когда теряешь фокус на другом объекте
-
+            if (_screenshotArea != null)
+            {
+                _screenshotArea.ReleaseMouseCapture();
+            }
             // отображение controls происходит только тогда, когда форма не _screenshotArea
             _screenshotAreaControl.IsDoExistAndHide();
             _screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
