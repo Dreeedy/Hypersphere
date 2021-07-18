@@ -112,10 +112,13 @@ namespace Hypersphere.UserControls
         }
         private void RemoveLastChildren()
         {
-            int count = elementCollection.Count;
-            if (count > 2)// Чтобы не удалял PaintUC
+            if (elementCollection.Count > 2)// чтобы не удалял PaintUC
             {
-                elementCollection.RemoveAt(count - 1);
+                elementCollection.RemoveAt(elementCollection.Count - 1);                
+            }
+            if (elementCollection.Count > 2 && ChekIsAnyBrushDraw())// чтобы работал undo при активной кистиы
+            {
+                elementCollection.RemoveAt(elementCollection.Count - 1);
             }
         }
         private void DisableAllElementsForDrawing()
