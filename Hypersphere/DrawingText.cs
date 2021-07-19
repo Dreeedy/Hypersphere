@@ -76,14 +76,14 @@ namespace Hypersphere
 
             canvasForDraw.Children.Add(_textBox);
 
-            SetMouseFocus(_textBox);// чтобы сразу писать в нем
+            SetMouseFocus();// чтобы сразу писать в нем
         }
         #endregion Public_Methods
 
 
 
         #region Private_Methods
-        private void SetMouseFocus(TextBox textBox)
+        private void SetMouseFocus()
         {
             _textBox.Focus();
         }
