@@ -116,10 +116,6 @@ namespace Hypersphere.UserControls
             {
                 elementCollection.RemoveAt(elementCollection.Count - 1);                
             }
-            if (elementCollection.Count > 2 && ChekIsAnyBrushDraw())// чтобы работал undo при активной кистиы
-            {
-                elementCollection.RemoveAt(elementCollection.Count - 1);
-            }
         }
         private void DisableAllElementsForDrawing()
         {
