@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using Hypersphere.ScreenshotArea;
-
+// master
 namespace Hypersphere
 {
     /// <summary>
