@@ -13,7 +13,6 @@ namespace Hypersphere
     /// </summary>
     public class SelectedColor
     {
-
         #region Public_Static_Constants
 
         #endregion Public_Static_Constants

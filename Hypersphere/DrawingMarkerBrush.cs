@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
-    class DrawingPencil : IDrawingPencil
+    class DrawingMarkerBrush : ITwoPointDrawingBrush
     {
         #region Public_Static_Constants
 
@@ -20,9 +20,12 @@ namespace Hypersphere
 
 
         #region Private_Fields
+        private SelectedColor _selectedColor;
+
         private Path _path;
         private GeometryGroup _geometryGroup;
-        private SelectedColor _selectedColor;
+        
+        private LineGeometry _line;
         #endregion Private_Fields
 
 
@@ -34,30 +37,31 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingPencil()
+        public DrawingMarkerBrush()
         {
             _selectedColor = new SelectedColor();
         }
-        public void CreatePencil(Canvas canvasForDraw)
+        public void CreateAndSetPoints(Canvas canvasForDraw, Point startPoint)
         {
-            // TODO: нормальная инициализация карандаша
-            // TODO: максимально вынести рисование в отдельный класс
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
-            _path.StrokeThickness = 2;
+            _path.StrokeThickness = 16;
+            _path.Opacity = 0.30;
 
             _geometryGroup = new GeometryGroup();
             _path.Data = _geometryGroup;
 
+            _line = new LineGeometry();
+            _line.StartPoint = startPoint;
+            _line.EndPoint = startPoint;
+
+            _geometryGroup.Children.Add(_line);
+
             canvasForDraw.Children.Add(_path);
         }
-        public void DrawLineGeometry(Point start, Point end)
+        public void UpdateEndPoint(Point endPoint)
         {
-            LineGeometry line = new LineGeometry();
-            line.StartPoint = start;
-            line.EndPoint = end;
-
-            _geometryGroup.Children.Add(line);
+            _line.EndPoint = endPoint;
         }
         #endregion Public_Methods
 
@@ -72,5 +76,6 @@ namespace Hypersphere
         #region Event_handlers
 
         #endregion Event_handlers
+
     }
 }

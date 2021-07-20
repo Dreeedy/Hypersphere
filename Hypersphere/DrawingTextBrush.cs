@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Hypersphere
 {
-    class DrawingText
+    class DrawingTextBrush : IDrawingTextBrush
     {
         #region Public_Static_Constants
 
@@ -26,6 +26,7 @@ namespace Hypersphere
 
         #region Private_Fields
         private SelectedColor _selectedColor;
+
         private TextBox _textBox;        
         #endregion Private_Fields
 
@@ -38,7 +39,7 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingText()
+        public DrawingTextBrush()
         {
             _selectedColor = new SelectedColor();
             // TODO: перещение textBox
@@ -47,10 +48,8 @@ namespace Hypersphere
         {            
             if (_textBox != null)
             {
-                if (_textBox.Text == "")
-                {
-                    canvasForDraw.Children.Remove(_textBox);
-                }
+                RemoveEmptyTextBox(canvasForDraw);
+
                 _textBox.IsReadOnly = true;
                 _textBox.BorderThickness = new Thickness(0);
                 _textBox.IsHitTestVisible = false;// мышь больше не реагирует на этот элемент
@@ -76,7 +75,7 @@ namespace Hypersphere
 
             canvasForDraw.Children.Add(_textBox);
 
-            SetMouseFocus();// чтобы сразу писать в нем
+            SetMouseFocus();// чтобы сразу писать в созданном textBox
         }
         #endregion Public_Methods
 
@@ -86,6 +85,13 @@ namespace Hypersphere
         private void SetMouseFocus()
         {
             _textBox.Focus();
+        }
+        private void RemoveEmptyTextBox(Canvas canvasForDraw)
+        {
+            if (_textBox.Text == "")
+            {
+                canvasForDraw.Children.Remove(_textBox);
+            }
         }
         #endregion Private_Methods
 

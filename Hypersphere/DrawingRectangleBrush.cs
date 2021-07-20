@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
-    class DrawingRectangle
+    class DrawingRectangleBrush : ITwoPointDrawingBrush
     {
         #region Public_Static_Constants
 
@@ -20,11 +20,14 @@ namespace Hypersphere
 
 
         #region Private_Fields
-        private Path _path;
-        private GeometryGroup _geometryGroup;
         private SelectedColor _selectedColor;
-        private RectangleGeometry _rectangle;
+
         private Point _startPoint;
+
+        private Path _path;
+        private GeometryGroup _geometryGroup;  
+        
+        private RectangleGeometry _rectangle;        
         #endregion Private_Fields
 
 
@@ -36,7 +39,7 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingRectangle()
+        public DrawingRectangleBrush()
         {
             _selectedColor = new SelectedColor();
         }

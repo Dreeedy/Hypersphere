@@ -32,16 +32,19 @@ namespace Hypersphere.ScreenshotArea
 
         #region Private_Fields
         UIElement _screenshotArea;
+
         bool _isLeftMouseButtonPressed;
-        IMouseCoordinates _mouseCoordinates;        
+
+        IMouseCoordinates _mouseCoordinates;   
+        
         IScreenshotAreaControl _screenshotAreaControl;
-        IDrawingPencil _drawingPencil;
-        IDrawingLine _drawingLine;
-        // TODO: сделать один общий интерфейс типо IDrawing или продолжить делать отдельные
-        DrawingArrow _drawingArrow;
-        DrawingRectangle _drawingRectangle;
-        DrawingMarker _drawingMarker;
-        DrawingText _drawingText;
+
+        IDrawingPencilBrush _drawingPencil;
+        IDrawingTextBrush _drawingText;
+        ITwoPointDrawingBrush _drawingLine;
+        ITwoPointDrawingBrush _drawingArrow;
+        ITwoPointDrawingBrush _drawingRectangle;
+        ITwoPointDrawingBrush _drawingMarker;        
         #endregion Private_Fields
 
 
@@ -60,12 +63,12 @@ namespace Hypersphere.ScreenshotArea
 
             _mouseCoordinates = new MouseCoordinates();            
             _screenshotAreaControl = new ScreenshotAreaControl();
-            _drawingPencil = new DrawingPencil();
-            _drawingLine = new DrawingLine();
-            _drawingArrow = new DrawingArrow();
-            _drawingRectangle = new DrawingRectangle();
-            _drawingMarker = new DrawingMarker();
-            _drawingText = new DrawingText();
+            _drawingPencil = new DrawingPencilBrush();
+            _drawingLine = new DrawingLineBrush();
+            _drawingArrow = new DrawingArrowBrush();
+            _drawingRectangle = new DrawingRectangleBrush();
+            _drawingMarker = new DrawingMarkerBrush();
+            _drawingText = new DrawingTextBrush();
         }
         #endregion Public_Methods
 

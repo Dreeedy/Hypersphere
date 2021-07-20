@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
-    class DrawingLine : IDrawingLine
+    class DrawingPencilBrush : IDrawingPencilBrush
     {
         #region Public_Static_Constants
 
@@ -20,10 +20,10 @@ namespace Hypersphere
 
 
         #region Private_Fields
-        private Path _path;
-        private GeometryGroup _geometryGroup;
         private SelectedColor _selectedColor;
-        private LineGeometry _line;
+
+        private Path _path;
+        private GeometryGroup _geometryGroup;        
         #endregion Private_Fields
 
 
@@ -35,11 +35,11 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingLine()
+        public DrawingPencilBrush()
         {
             _selectedColor = new SelectedColor();
         }
-        public void CreateAndSetPoints(Canvas canvasForDraw, Point startPoint)
+        public void CreatePencil(Canvas canvasForDraw)
         {
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
@@ -48,17 +48,15 @@ namespace Hypersphere
             _geometryGroup = new GeometryGroup();
             _path.Data = _geometryGroup;
 
-            _line = new LineGeometry();
-            _line.StartPoint = startPoint;
-            _line.EndPoint = startPoint;
-
-            _geometryGroup.Children.Add(_line);
-
             canvasForDraw.Children.Add(_path);
         }
-        public void UpdateEndPoint(Point endPoint)
+        public void DrawLineGeometry(Point startPoint, Point endPoint)
         {
-            _line.EndPoint = endPoint;            
+            LineGeometry line = new LineGeometry();
+            line.StartPoint = startPoint;
+            line.EndPoint = endPoint;
+
+            _geometryGroup.Children.Add(line);
         }
         #endregion Public_Methods
 

@@ -5,9 +5,8 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
-    class DrawingMarker
+    class DrawingLineBrush : ITwoPointDrawingBrush
     {
-
         #region Public_Static_Constants
 
         #endregion Public_Static_Constants
@@ -21,9 +20,11 @@ namespace Hypersphere
 
 
         #region Private_Fields
+        private SelectedColor _selectedColor;
+
         private Path _path;
         private GeometryGroup _geometryGroup;
-        private SelectedColor _selectedColor;
+        
         private LineGeometry _line;
         #endregion Private_Fields
 
@@ -36,7 +37,7 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingMarker()
+        public DrawingLineBrush()
         {
             _selectedColor = new SelectedColor();
         }
@@ -44,8 +45,7 @@ namespace Hypersphere
         {
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
-            _path.StrokeThickness = 16;
-            _path.Opacity = 0.30;
+            _path.StrokeThickness = 2;
 
             _geometryGroup = new GeometryGroup();
             _path.Data = _geometryGroup;
@@ -60,7 +60,7 @@ namespace Hypersphere
         }
         public void UpdateEndPoint(Point endPoint)
         {
-            _line.EndPoint = endPoint;
+            _line.EndPoint = endPoint;            
         }
         #endregion Public_Methods
 
@@ -75,6 +75,5 @@ namespace Hypersphere
         #region Event_handlers
 
         #endregion Event_handlers
-
     }
 }

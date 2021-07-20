@@ -3,9 +3,8 @@ using System.Windows.Controls;
 
 namespace Hypersphere
 {
-    interface IDrawingArrow
+    interface IDrawingTextBrush
     {
         public void CreateAndSetPoints(Canvas canvasForDraw, Point startPoint);
-        public void UpdateEndPoint(Point endPoint);
     }
 }

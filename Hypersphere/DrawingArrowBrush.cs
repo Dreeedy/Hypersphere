@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 
 namespace Hypersphere
 {
-    class DrawingArrow
+    class DrawingArrowBrush : ITwoPointDrawingBrush
     {
         #region Public_Static_Constants
 
@@ -22,14 +22,17 @@ namespace Hypersphere
 
 
         #region Private_Fields
+        private SelectedColor _selectedColor;
+
+        private Point _startPoint;
+
         private Path _path;
         private GeometryGroup _geometryGroup;
-        private SelectedColor _selectedColor;
+        
         private LineGeometry _line;
         private RectangleGeometry _rectangle;
-        private Size _size;
-        private RotateTransform _rotateTransform;
-        private Point _startPoint;
+        private Size _rectangleSize;
+        private RotateTransform _newRectangleRotateTransform;        
         #endregion Private_Fields
 
 
@@ -41,7 +44,7 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public DrawingArrow()
+        public DrawingArrowBrush()
         {
             _selectedColor = new SelectedColor();
         }
@@ -60,14 +63,14 @@ namespace Hypersphere
             _line = new LineGeometry();
             _line.StartPoint = startPoint;
             _line.EndPoint = startPoint;
-
-            _rotateTransform = new RotateTransform();
-            _rotateTransform.Angle = CalculeAngle(_startPoint, startPoint);
-
+            
             _rectangle = new RectangleGeometry();
-            _size = new Size(4, 4);
-            _rectangle.Rect = new Rect(startPoint, _size);
-            _rectangle.Transform = _rotateTransform;
+            _rectangleSize = new Size(4, 4);
+            _rectangle.Rect = new Rect(startPoint, _rectangleSize);
+
+            _newRectangleRotateTransform = new RotateTransform();
+            _newRectangleRotateTransform.Angle = CalculeAngle(_startPoint, startPoint);
+            _rectangle.Transform = _newRectangleRotateTransform;
 
             _geometryGroup.Children.Add(_line);
             _geometryGroup.Children.Add(_rectangle);
@@ -78,18 +81,21 @@ namespace Hypersphere
         {
             _line.EndPoint = endPoint;
 
-            _rectangle.Rect = new Rect(endPoint, _size);
+            _rectangle.Rect = new Rect(endPoint, _rectangleSize);
 
-            _rotateTransform.Angle = CalculeAngle(_startPoint, endPoint) - 45;
-            _rotateTransform.CenterX = endPoint.X;
-            _rotateTransform.CenterY = endPoint.Y;
-            _rectangle.Transform = _rotateTransform;
+            _newRectangleRotateTransform.Angle = CalculeAngle(_startPoint, endPoint) - 45;// Чтобы поворачивать "arrow" на угол
+            _newRectangleRotateTransform.CenterX = endPoint.X;
+            _newRectangleRotateTransform.CenterY = endPoint.Y;
+            _rectangle.Transform = _newRectangleRotateTransform;
         }
         #endregion Public_Methods
 
 
 
         #region Private_Methods
+        /// <summary>
+        /// Чтобы вычислять угол между стартовой и конечно точкой
+        /// </summary>
         private double CalculeAngle(Point startPoint, Point endPoint)
         {
             var deltaX = Math.Pow((endPoint.X - startPoint.X), 2);

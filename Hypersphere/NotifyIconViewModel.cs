@@ -10,6 +10,31 @@ namespace Hypersphere
     /// </summary>
     public class NotifyIconViewModel
     {
+        #region Public_Static_Constants
+
+        #endregion Public_Static_Constants
+
+
+
+        #region Private_Static_Fields
+
+        #endregion Private_Static_Fields     
+
+
+
+        #region Private_Fields
+
+        #endregion Private_Fields
+
+
+
+        #region Properties
+
+        #endregion Properties
+
+
+
+        #region Public_Methods
         /// <summary>
         /// Показывает окно, если оно еще не открыто.
         /// </summary>
@@ -28,7 +53,6 @@ namespace Hypersphere
                 };
             }
         }
-
         /// <summary>
         /// Скрывает главное окно. Эта команда доступна, только если окно открыто.
         /// </summary>
@@ -43,8 +67,6 @@ namespace Hypersphere
                 };
             }
         }
-
-
         /// <summary>
         /// Закрывает приложение.
         /// </summary>
@@ -55,5 +77,18 @@ namespace Hypersphere
                 return new DelegateCommand { CommandAction = () => Application.Current.Shutdown() };
             }
         }
+        #endregion Public_Methods
+
+
+
+        #region Private_Methods
+
+        #endregion Private_Methods
+
+
+
+        #region Event_handlers
+
+        #endregion Event_handlers
     }
 }
