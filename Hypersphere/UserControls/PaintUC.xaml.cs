@@ -31,10 +31,11 @@ namespace Hypersphere.UserControls
 
 
         #region Private_Fields
+        private SelectedColor _selectedColor;
+
         private bool _isAnyBrushDraw;
         private Dictionary<string, bool> _allElementsForDrawingDictionary;
-        private Image _image;
-        private SelectedColor _selectedColor;
+        private Image _image;        
         #endregion Private_Fields
 
 
@@ -116,10 +117,6 @@ namespace Hypersphere.UserControls
             {
                 elementCollection.RemoveAt(elementCollection.Count - 1);                
             }
-            if (elementCollection.Count > 2 && ChekIsAnyBrushDraw())// чтобы работал undo при активной кистиы
-            {
-                elementCollection.RemoveAt(elementCollection.Count - 1);
-            }
         }
         private void DisableAllElementsForDrawing()
         {
@@ -189,8 +186,6 @@ namespace Hypersphere.UserControls
                 DisableAllElementsForDrawing();
                 _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/pencil_32x32_enabled.png"));
                 _allElementsForDrawingDictionary[_image.Name] = true;
-
-                // проверка. если больше 2 то удаляем последний элемент
             }
         }
         private void lineImale_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -275,6 +270,10 @@ namespace Hypersphere.UserControls
                 return;
             }
             RemoveLastChildren();
+            if (elementCollection.Count > 2 && ChekIsAnyBrushDraw())// чтобы удалять с активной кистью
+            {
+                RemoveLastChildren();
+            }            
         }
         private void pencilImage_MouseEnter(object sender, MouseEventArgs e)
         {
