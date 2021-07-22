@@ -124,7 +124,7 @@
                   Background="Black"
                   Opacity="0.5">
 
-            </Grid>
+            </Grid>            
             <!--#BlackGrid 0.0 to 0.4 CLOSE -->
 
             <!--#BlackGrid 4.0 to 4.4 OPEN -->
@@ -205,6 +205,36 @@
 
             </Grid>
             <!--#BlackGrid 3.0 to 3.4 CLOSE -->
+            
+            <!--#BlackGrid угловой 1.1 -->
+            <Grid Grid.Column="1"
+                  Grid.Row="1"
+                  Background="Black"
+                  Opacity="0.5">
+            </Grid>
+
+            <!--#BlackGrid угловой 3.1 -->
+            <Grid Grid.Column="3"
+                  Grid.Row="1"
+                  Background="Black"
+                  Opacity="0.5">
+            </Grid>
+
+            <!--#BlackGrid угловой 1.3 -->
+            <Grid Grid.Column="1"
+                  Grid.Row="3"
+                  Background="Black"
+                  Opacity="0.5">
+            </Grid>
+
+            <!--#BlackGrid угловой 3.3 -->
+            <Grid Grid.Column="3"
+                  Grid.Row="3"
+                  Background="Black"
+                  Opacity="0.5">
+            </Grid>
+
+
         </Grid>
 
         <Canvas x:Name="paintAndUserControlsCanvas">
