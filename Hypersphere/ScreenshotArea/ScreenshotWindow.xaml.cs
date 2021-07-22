@@ -46,8 +46,8 @@ namespace Hypersphere.ScreenshotArea
         private ITwoPointDrawingBrush _drawingRectangle;
         private ITwoPointDrawingBrush _drawingMarker;
 
-        double _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-        double _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+        private double _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+        private double _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
 
         private bool _isScreenshotAreaResizing;
         private bool _isAnySideSelected;
@@ -86,11 +86,8 @@ namespace Hypersphere.ScreenshotArea
 
             _isScreenshotAreaResizing = true;
 
-            
-            /*
-             System.Windows.SystemParameters.PrimaryScreenWidth
-            System.Windows.SystemParameters.PrimaryScreenHeight
-             */
+
+
             MinimizeScreenshotArea();
         }
         #endregion Public_Methods
@@ -115,27 +112,27 @@ namespace Hypersphere.ScreenshotArea
                 rdDown.Height = new GridLength((_primaryScreenHeight - currentMouseCoordinates.Y));
                 cdRight.Width = new GridLength((_primaryScreenWidth - currentMouseCoordinates.X));
             }
-            if (_isBottomRightSideSelected)
-            {
-                rdUp.Height = new GridLength((currentMouseCoordinates.Y));
-                cdLeft.Width = new GridLength((currentMouseCoordinates.X));
-            }
             if (_isTopRightSideSelected)
             {
                 rdDown.Height = new GridLength((_primaryScreenHeight - currentMouseCoordinates.Y));
                 cdLeft.Width = new GridLength((currentMouseCoordinates.X));
-            }
+            }           
             if (_isBottomLeftSideSelected)
             {
                 rdUp.Height = new GridLength((currentMouseCoordinates.Y));
                 cdRight.Width = new GridLength((_primaryScreenWidth - currentMouseCoordinates.X));
             }
+            if (_isBottomRightSideSelected)
+            {
+                rdUp.Height = new GridLength((currentMouseCoordinates.Y));
+                cdLeft.Width = new GridLength((currentMouseCoordinates.X));
+            }
         }
         private void MoveScreenshotArea()
         {
             /*
-             Движение ScreenshotArea происходит за счет изменения width у ColumnDefinition 
-            и height RowDefinition находящихся внутри Grid blackAndScreenshotAreasGrid 
+             * Движение ScreenshotArea происходит за счет изменения width у ColumnDefinition             
+             * и height RowDefinition находящихся внутри Grid blackAndScreenshotAreasGrid
              */
             Point offset = _mouseCoordinates.GetOffsetMouseCoordinates();
 
@@ -274,65 +271,64 @@ namespace Hypersphere.ScreenshotArea
 
             if (_isLeftMouseButtonPressedOnMainGrid == true && screenshotAreaGrid.ActualWidth <= 0 && screenshotAreaGrid.ActualHeight <= 0)
             {
-                // TODO: resize во все стороны  
+                // TODO: resize во внешние стороны
                 _isTopLeftSideSelected = false;
                 _isTopRightSideSelected = false;
                 _isBottomLeftSideSelected = false;
                 _isBottomRightSideSelected = false;
 
                 Point previousMouseCoordinates = _mouseCoordinates.GetPreviousMouseCoordinates();
-                
+                // TODO: refactor сделать rdUp.Height и т.д по порядку
                 // TOP-LEFT
                 if (_isAnySideSelected == false && previousMouseCoordinates.Y < (_primaryScreenHeight / 2) 
                     && previousMouseCoordinates.X < (_primaryScreenWidth / 2))
                 {
                     rdUp.Height = new GridLength((previousMouseCoordinates.Y));
-                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
 
-                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));                    
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));                           
                     cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
 
                     _isTopLeftSideSelected = true;
                     _isAnySideSelected = true;
                 }
-                // BOTTOM-RIGHT
-                if (_isAnySideSelected == false && previousMouseCoordinates.Y > (_primaryScreenHeight / 2) 
-                    && previousMouseCoordinates.X > (_primaryScreenWidth / 2))
-                {                    
-                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
-                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
-
-                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
-                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));                    
-
-                    _isBottomRightSideSelected = true;
-                    _isAnySideSelected = true;
-                }
                 // TOP-RIGHT
-                if (_isAnySideSelected == false && previousMouseCoordinates.Y < (_primaryScreenHeight / 2) 
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y < (_primaryScreenHeight / 2)
                     && previousMouseCoordinates.X > (_primaryScreenWidth / 2))
                 {
                     rdUp.Height = new GridLength((previousMouseCoordinates.Y));
-                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
-
                     rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+
                     cdLeft.Width = new GridLength((previousMouseCoordinates.X));
-                    
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
 
                     _isTopRightSideSelected = true;
                     _isAnySideSelected = true;
-                }
+                }               
                 // BOTTOM-LEFT
                 if (_isAnySideSelected == false && previousMouseCoordinates.Y > (_primaryScreenHeight / 2) 
                     && previousMouseCoordinates.X < (_primaryScreenWidth / 2))
                 {
-                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
-                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
-
                     rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));                    
                     cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));               
                     
                     _isBottomLeftSideSelected = true;
+                    _isAnySideSelected = true;
+                }
+                // BOTTOM-RIGHT
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y > (_primaryScreenHeight / 2)
+                    && previousMouseCoordinates.X > (_primaryScreenWidth / 2))
+                {
+                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
+
+                    _isBottomRightSideSelected = true;
                     _isAnySideSelected = true;
                 }
             }
