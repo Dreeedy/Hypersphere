@@ -31,20 +31,31 @@ namespace Hypersphere.ScreenshotArea
 
 
         #region Private_Fields
-        UIElement _screenshotArea;
+        private UIElement _screenshotArea;
 
-        bool _isLeftMouseButtonPressed;
+        private bool _isLeftMouseButtonPressedOnMainGrid;        
 
-        IMouseCoordinates _mouseCoordinates;   
+        private IMouseCoordinates _mouseCoordinates;   
         
-        IScreenshotAreaControl _screenshotAreaControl;
+        private IScreenshotAreaControl _screenshotAreaControl;
 
-        IDrawingPencilBrush _drawingPencil;
-        IDrawingTextBrush _drawingText;
-        ITwoPointDrawingBrush _drawingLine;
-        ITwoPointDrawingBrush _drawingArrow;
-        ITwoPointDrawingBrush _drawingRectangle;
-        ITwoPointDrawingBrush _drawingMarker;        
+        private IDrawingPencilBrush _drawingPencil;
+        private IDrawingTextBrush _drawingText;
+        private ITwoPointDrawingBrush _drawingLine;
+        private ITwoPointDrawingBrush _drawingArrow;
+        private ITwoPointDrawingBrush _drawingRectangle;
+        private ITwoPointDrawingBrush _drawingMarker;
+
+        double _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+        double _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+
+        private bool _isScreenshotAreaResizing;
+        private bool _isAnySideSelected;
+
+        private bool _isTopLeftSideSelected;
+        private bool _isTopRightSideSelected;
+        private bool _isBottomLeftSideSelected;
+        private bool _isBottomRightSideSelected;
         #endregion Private_Fields
 
 
@@ -69,12 +80,57 @@ namespace Hypersphere.ScreenshotArea
             _drawingRectangle = new DrawingRectangleBrush();
             _drawingMarker = new DrawingMarkerBrush();
             _drawingText = new DrawingTextBrush();
+
+            _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+
+            _isScreenshotAreaResizing = true;
+
+            
+            /*
+             System.Windows.SystemParameters.PrimaryScreenWidth
+            System.Windows.SystemParameters.PrimaryScreenHeight
+             */
+            MinimizeScreenshotArea();
         }
         #endregion Public_Methods
 
 
 
         #region Private_Methods
+        private void MinimizeScreenshotArea()
+        {
+            rdUp.Height = new GridLength((_primaryScreenHeight / 2));
+            rdDown.Height = new GridLength((_primaryScreenHeight / 2));
+            
+            cdLeft.Width = new GridLength((_primaryScreenWidth / 2));
+            cdRight.Width = new GridLength((_primaryScreenWidth / 2));
+        }
+        private void ResizeScreenshotArea()
+        {
+            Point currentMouseCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
+
+            if (_isTopLeftSideSelected)
+            {
+                rdDown.Height = new GridLength((_primaryScreenHeight - currentMouseCoordinates.Y));
+                cdRight.Width = new GridLength((_primaryScreenWidth - currentMouseCoordinates.X));
+            }
+            if (_isBottomRightSideSelected)
+            {
+                rdUp.Height = new GridLength((currentMouseCoordinates.Y));
+                cdLeft.Width = new GridLength((currentMouseCoordinates.X));
+            }
+            if (_isTopRightSideSelected)
+            {
+                rdDown.Height = new GridLength((_primaryScreenHeight - currentMouseCoordinates.Y));
+                cdLeft.Width = new GridLength((currentMouseCoordinates.X));
+            }
+            if (_isBottomLeftSideSelected)
+            {
+                rdUp.Height = new GridLength((currentMouseCoordinates.Y));
+                cdRight.Width = new GridLength((_primaryScreenWidth - currentMouseCoordinates.X));
+            }
+        }
         private void MoveScreenshotArea()
         {
             /*
@@ -177,43 +233,108 @@ namespace Hypersphere.ScreenshotArea
         #region Event_handlers
         private void mainGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _isLeftMouseButtonPressed = true;
+            _isLeftMouseButtonPressedOnMainGrid = true;
 
             _mouseCoordinates.SetPreviousMouseCoordinates(mainGrid, e);
 
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsPencilDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 _drawingPencil.CreatePencil(paintAndUserControlsCanvas);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsLineDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsLineDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
                 _drawingLine.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
                 _drawingArrow.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
                 _drawingRectangle.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsMarkerDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsMarkerDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
                 _drawingMarker.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsTextDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsTextDraw())
             {
                 _mouseCoordinates.SetCurrentMouseCoordinates(mainGrid, e);
                 Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
                 _drawingText.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
+            }
+
+            if (_isLeftMouseButtonPressedOnMainGrid == true && screenshotAreaGrid.ActualWidth <= 0 && screenshotAreaGrid.ActualHeight <= 0)
+            {
+                // TODO: resize во все стороны  
+                _isTopLeftSideSelected = false;
+                _isTopRightSideSelected = false;
+                _isBottomLeftSideSelected = false;
+                _isBottomRightSideSelected = false;
+
+                Point previousMouseCoordinates = _mouseCoordinates.GetPreviousMouseCoordinates();
+                
+                // TOP-LEFT
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y < (_primaryScreenHeight / 2) 
+                    && previousMouseCoordinates.X < (_primaryScreenWidth / 2))
+                {
+                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
+
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));                    
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
+
+                    _isTopLeftSideSelected = true;
+                    _isAnySideSelected = true;
+                }
+                // BOTTOM-RIGHT
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y > (_primaryScreenHeight / 2) 
+                    && previousMouseCoordinates.X > (_primaryScreenWidth / 2))
+                {                    
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
+
+                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));                    
+
+                    _isBottomRightSideSelected = true;
+                    _isAnySideSelected = true;
+                }
+                // TOP-RIGHT
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y < (_primaryScreenHeight / 2) 
+                    && previousMouseCoordinates.X > (_primaryScreenWidth / 2))
+                {
+                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
+
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
+                    
+
+                    _isTopRightSideSelected = true;
+                    _isAnySideSelected = true;
+                }
+                // BOTTOM-LEFT
+                if (_isAnySideSelected == false && previousMouseCoordinates.Y > (_primaryScreenHeight / 2) 
+                    && previousMouseCoordinates.X < (_primaryScreenWidth / 2))
+                {
+                    rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
+                    cdLeft.Width = new GridLength((previousMouseCoordinates.X));
+
+                    rdUp.Height = new GridLength((previousMouseCoordinates.Y));
+                    cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));               
+                    
+                    _isBottomLeftSideSelected = true;
+                    _isAnySideSelected = true;
+                }
             }
         }
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -224,31 +345,42 @@ namespace Hypersphere.ScreenshotArea
             Point previousCoordinates = _mouseCoordinates.GetPreviousMouseCoordinates();
             Point currentCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
 
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsPencilDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsPencilDraw())
             {
                 _drawingPencil.DrawLineGeometry(previousCoordinates, currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsLineDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsLineDraw())
             {
                 _drawingLine.UpdateEndPoint(currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsArrowDraw())
             {
                 _drawingArrow.UpdateEndPoint(currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsRectangleDraw())
             {
                 _drawingRectangle.UpdateEndPoint(currentCoordinates);
             }
-            if (_isLeftMouseButtonPressed == true && _screenshotAreaControl.IsDoExistAndIsMarkerDraw())
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _screenshotAreaControl.IsDoExistAndIsMarkerDraw())
             {
                 _drawingMarker.UpdateEndPoint(currentCoordinates);
             }
             _mouseCoordinates.UpdatePreviousMouseCoordinates();
+
+            if (_isLeftMouseButtonPressedOnMainGrid == true && _isScreenshotAreaResizing == true)
+            {
+                ResizeScreenshotArea();
+            }
         }
         private void mainGrid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _isLeftMouseButtonPressed = false;
+            _isLeftMouseButtonPressedOnMainGrid = false;
+            _isScreenshotAreaResizing = false;
+
+            if (!_isScreenshotAreaResizing)
+            {
+                _screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
+            }
         }
         private void screenshotAreaGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
