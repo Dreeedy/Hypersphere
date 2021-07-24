@@ -13,7 +13,8 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         WindowState="Maximized"
-        Background="Transparent">
+        Background="Transparent"
+        Topmost="True">
     <Grid x:Name="mainGrid"
           PreviewMouseDown="mainGrid_PreviewMouseDown"
           PreviewMouseMove="mainGrid_PreviewMouseMove"

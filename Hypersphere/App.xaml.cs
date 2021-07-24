@@ -43,7 +43,8 @@ namespace Hypersphere
 
             Application.Current.Dispatcher.Invoke(() => 
             {
-                PerformRegisterHotkey();
+                PerformRegisterHotkeyCtrlAndPrintScreen();
+                PerformRegisterHotKeyEscape();
             });
         }
 
@@ -54,9 +55,9 @@ namespace Hypersphere
             _notifyIcon.Dispose(); // очистить память от значка
             base.OnExit(e);
         }
-        static void PerformRegisterHotkey()
-        {            
-            // 0x2C - print screen virutal code
+        static void PerformRegisterHotkeyCtrlAndPrintScreen()
+        {
+            // VK_SNAPSHOT - 0x2C - PRINT SCREEN key
             _keyboardHookManager.RegisterHotkey(ModifierKeys.Control, 0x2C, () =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
@@ -75,10 +76,30 @@ namespace Hypersphere
                     System.Drawing.Imaging.ImageFormat.Png));
                 //keyboardHookManager.NotityScreenPhotographer(); // сделать это но кнопку копировать
 
-                Debug.WriteLine("Ctrl+Print Screen detected");
+                Debug.WriteLine("CTRL + PRINT_SCREEN detected");
             });
         }
-        
+        private static void PerformRegisterHotKeyEscape()
+        {
+            // VK _ ESCAPE - 0x1B - ESC key
+            _keyboardHookManager.RegisterHotkey(0x1B, () =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (_screenshotWindow != null)
+                    {
+                        _screenshotWindow.Close();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                });                
+
+                Debug.WriteLine("ESC detected");
+            });
+        }
+
         private static bool InstanceCheck()
         {
             bool isNew;
