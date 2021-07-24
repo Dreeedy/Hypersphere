@@ -2,6 +2,9 @@
 
 namespace Hypersphere
 {
+    /// <summary>
+    /// Используется для хранения и передами размеров и позиции screenshotArea
+    /// </summary>
     class ScreenshotAreaSize
     {
         #region Public_Static_Constants
@@ -13,9 +16,7 @@ namespace Hypersphere
         #region Private_Static_Fields
         private static Size s_printscreenSize;
         private static int s_sourceY;
-        private static int s_destinationY;
         private static int s_sourceX;
-        private static int s_destinationX;
         #endregion Private_Static_Fields     
 
 
@@ -45,17 +46,9 @@ namespace Hypersphere
         {
             return s_sourceY;
         }
-        public int GetDestinationY()
-        {
-            return s_destinationY;
-        }
         public int GetSourceX()
         {
             return s_sourceX;
-        }
-        public int GetDestinationX()
-        {
-            return s_destinationX;
         }
         public void SetPrintscreenSize(Size size)
         {
@@ -69,21 +62,9 @@ namespace Hypersphere
 
             return;
         }
-        public void SetDestinationY(int value)
-        {
-            s_destinationY = value;
-
-            return;
-        }
         public void SetSourceX(int value)
         {
             s_sourceX = value;
-
-            return;
-        }
-        public void SetDestinationX(int value)
-        {
-            s_destinationX = value;
 
             return;
         }

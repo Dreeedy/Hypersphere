@@ -72,12 +72,11 @@ namespace Hypersphere
             System.Drawing.Size size = _screenshotAreaSize.GetPrintscreenSize();
             int sourceY = _screenshotAreaSize.GetSourceY();
             int sourceX = _screenshotAreaSize.GetSourceX();
-            int gridSplitterThickness = 0;
 
             // TODO: сделать вызов функции или по нажатию кнопку или комбинации клавиш ( копировать )
             _printscreen = new Bitmap(size.Width, size.Height);
             _graphics = Graphics.FromImage(_printscreen);
-            _graphics.CopyFromScreen(sourceX + gridSplitterThickness, sourceY + gridSplitterThickness, 0, 0, _printscreen.Size);
+            _graphics.CopyFromScreen(sourceX, sourceY, 0, 0, _printscreen.Size);
             _graphics.Dispose();
         }
         private void SaveScreenshot()

@@ -19,7 +19,7 @@ namespace Hypersphere.ScreenshotArea
     public partial class ScreenshotWindow : Window
     {
         #region Public_Static_Constants
-
+        public const int GRIDSPLITTER_THICKNESS = 3;
         #endregion Public_Static_Constants
 
 
@@ -54,7 +54,6 @@ namespace Hypersphere.ScreenshotArea
         private bool _isScreenshotAreaResizing;
 
         private Point _startResizingPoint;
-        private Point _endResizingPoint;
         #endregion Private_Fields
 
 
@@ -303,7 +302,7 @@ namespace Hypersphere.ScreenshotArea
                 _drawingText.CreateAndSetPoints(paintAndUserControlsCanvas, currentCoordinates);
             }
 
-            if (_isLeftMouseButtonPressedOnMainGrid == true && screenshotAreaGrid.ActualWidth <= 0 && screenshotAreaGrid.ActualHeight <= 0)
+            if (_isLeftMouseButtonPressedOnMainGrid == true && screenshotAreaGrid.ActualWidth <= 4 && screenshotAreaGrid.ActualHeight <= 4)
             {               
                 Point previousMouseCoordinates = _mouseCoordinates.GetPreviousMouseCoordinates();
                 _startResizingPoint = previousMouseCoordinates;
@@ -312,7 +311,9 @@ namespace Hypersphere.ScreenshotArea
                 rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
 
                 cdLeft.Width = new GridLength((previousMouseCoordinates.X));
-                cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));       
+                cdRight.Width = new GridLength((_primaryScreenWidth - previousMouseCoordinates.X));
+
+                _isScreenshotAreaResizing = true;
             }
         }
         private void mainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -356,16 +357,13 @@ namespace Hypersphere.ScreenshotArea
             _isScreenshotAreaResizing = false;
 
             if (!_isScreenshotAreaResizing)
-            {
-                _endResizingPoint = _mouseCoordinates.GetCurrentMouseCoordinates();
-
+            { 
                 _screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
+
                 System.Drawing.Size size = new System.Drawing.Size(Convert.ToInt32(screenshotAreaGrid.ActualWidth), Convert.ToInt32(screenshotAreaGrid.ActualHeight));
                 _screenshotAreaSize.SetPrintscreenSize(size);
-                _screenshotAreaSize.SetSourceY(Convert.ToInt32(rdUp.ActualHeight));
-                _screenshotAreaSize.SetSourceX(Convert.ToInt32(cdLeft.ActualWidth));
-                //_screenshotAreaSize.SetDestinationY(Convert.ToInt32(_endResizingPoint.Y));
-                //_screenshotAreaSize.SetDestinationX(Convert.ToInt32(_endResizingPoint.X));
+                _screenshotAreaSize.SetSourceY(Convert.ToInt32(rdUp.ActualHeight + GRIDSPLITTER_THICKNESS));
+                _screenshotAreaSize.SetSourceX(Convert.ToInt32(cdLeft.ActualWidth + GRIDSPLITTER_THICKNESS));
             }
         }
         private void screenshotAreaGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
