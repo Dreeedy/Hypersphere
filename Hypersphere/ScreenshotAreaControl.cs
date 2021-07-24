@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Hypersphere.ScreenshotArea;
 using Hypersphere.UserControls;
 
 namespace Hypersphere
@@ -55,9 +56,9 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public ScreenshotAreaControl()
+        public ScreenshotAreaControl(ScreenshotWindow sw)
         {
-            _systemUC = new SystemUC();
+            _systemUC = new SystemUC(sw);
             Panel.SetZIndex(_systemUC, 1000);// нельзя рисовать поверх
             _paintUC = new PaintUC();
             Panel.SetZIndex(_paintUC, 1000);// нельзя рисовать поверх

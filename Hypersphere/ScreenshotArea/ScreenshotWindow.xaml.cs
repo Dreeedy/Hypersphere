@@ -71,7 +71,7 @@ namespace Hypersphere.ScreenshotArea
             InitializeComponent();
 
             _mouseCoordinates = new MouseCoordinates();            
-            _screenshotAreaControl = new ScreenshotAreaControl();
+            _screenshotAreaControl = new ScreenshotAreaControl(this);
             _drawingPencil = new DrawingPencilBrush();
             _drawingLine = new DrawingLineBrush();
             _drawingArrow = new DrawingArrowBrush();

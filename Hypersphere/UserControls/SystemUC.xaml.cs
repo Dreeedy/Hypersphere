@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Hypersphere.ScreenshotArea;
 
 namespace Hypersphere.UserControls
 {
@@ -30,7 +31,7 @@ namespace Hypersphere.UserControls
 
 
         #region Private_Fields
-        ScreenshotAreaSize _screenshotAreaSize;
+        private ScreenshotWindow _screenshotWindow;
 
         private Image _image;
         #endregion Private_Fields
@@ -44,11 +45,10 @@ namespace Hypersphere.UserControls
 
 
         #region Public_Methods
-        public SystemUC()
+        public SystemUC(ScreenshotWindow sw)
         {
             InitializeComponent();
-
-            _screenshotAreaSize = new ScreenshotAreaSize();
+            _screenshotWindow = sw;
         }
         #endregion Public_Methods
 
@@ -63,7 +63,10 @@ namespace Hypersphere.UserControls
         #region Event_handlers
         private void closeImage_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Shutdown();
+            if (_screenshotWindow != null)
+            {
+                _screenshotWindow.Close();
+            }            
         }
         private void copyImage_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -98,7 +101,7 @@ namespace Hypersphere.UserControls
         #endregion Event_handlers
 
         private void copyImage_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {            
+        {
             
         }
     }
