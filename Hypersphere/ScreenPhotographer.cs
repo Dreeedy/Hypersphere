@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows;
 
 namespace Hypersphere
 {
@@ -23,6 +24,8 @@ namespace Hypersphere
         private string _path;
         private System.Drawing.Imaging.ImageFormat _imageFormat;
         private string _imageName;
+
+        private ScreenshotAreaSize _screenshotAreaSize;
         #endregion Private_Fields
 
 
@@ -39,6 +42,8 @@ namespace Hypersphere
             _path = path;
             _imageFormat = imageFormat;
             _imageName = imageName;
+
+            _screenshotAreaSize = new ScreenshotAreaSize();
             // TODO: передавать в конструктор размер области для скриншота
             // TODO: % качества в котором нужно сохранить изображение
             // TODO: формат изобаржения
@@ -64,9 +69,15 @@ namespace Hypersphere
         }
         private void TakeScreenshot()
         {
-            _printscreen = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
-            _graphics = Graphics.FromImage(_printscreen as Image);
-            _graphics.CopyFromScreen(0, 0, 0, 0, _printscreen.Size);
+            System.Drawing.Size size = _screenshotAreaSize.GetPrintscreenSize();
+            int sourceY = _screenshotAreaSize.GetSourceY();
+            int sourceX = _screenshotAreaSize.GetSourceX();
+            int gridSplitterThickness = 0;
+
+            // TODO: сделать вызов функции или по нажатию кнопку или комбинации клавиш ( копировать )
+            _printscreen = new Bitmap(size.Width, size.Height);
+            _graphics = Graphics.FromImage(_printscreen);
+            _graphics.CopyFromScreen(sourceX + gridSplitterThickness, sourceY + gridSplitterThickness, 0, 0, _printscreen.Size);
             _graphics.Dispose();
         }
         private void SaveScreenshot()

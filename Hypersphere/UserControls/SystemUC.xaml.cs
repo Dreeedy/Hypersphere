@@ -30,6 +30,8 @@ namespace Hypersphere.UserControls
 
 
         #region Private_Fields
+        ScreenshotAreaSize _screenshotAreaSize;
+
         private Image _image;
         #endregion Private_Fields
 
@@ -45,6 +47,8 @@ namespace Hypersphere.UserControls
         public SystemUC()
         {
             InitializeComponent();
+
+            _screenshotAreaSize = new ScreenshotAreaSize();
         }
         #endregion Public_Methods
 
@@ -92,5 +96,10 @@ namespace Hypersphere.UserControls
             _image.Source = new BitmapImage(new Uri("pack://application:,,,/Hypersphere;component/Resource/Icons/close_32x32_disabled.png"));
         }
         #endregion Event_handlers
+
+        private void copyImage_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {            
+            
+        }
     }
 }

@@ -46,12 +46,15 @@ namespace Hypersphere.ScreenshotArea
         private ITwoPointDrawingBrush _drawingRectangle;
         private ITwoPointDrawingBrush _drawingMarker;
 
+        private ScreenshotAreaSize _screenshotAreaSize;
+
         private double _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         private double _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
 
         private bool _isScreenshotAreaResizing;
 
-        private Point _resizingPoint;
+        private Point _startResizingPoint;
+        private Point _endResizingPoint;
         #endregion Private_Fields
 
 
@@ -76,6 +79,8 @@ namespace Hypersphere.ScreenshotArea
             _drawingRectangle = new DrawingRectangleBrush();
             _drawingMarker = new DrawingMarkerBrush();
             _drawingText = new DrawingTextBrush();
+
+            _screenshotAreaSize = new ScreenshotAreaSize();
 
             _primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
             _primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -107,7 +112,7 @@ namespace Hypersphere.ScreenshotArea
             Point currentMouseCoordinates = _mouseCoordinates.GetCurrentMouseCoordinates();
 
             // resize TOP-LEFT
-            if (currentMouseCoordinates.Y < _resizingPoint.Y && currentMouseCoordinates.X < _resizingPoint.X)
+            if (currentMouseCoordinates.Y < _startResizingPoint.Y && currentMouseCoordinates.X < _startResizingPoint.X)
             {
                 ResizeScreenshotAreaUp(currentMouseCoordinates);
                 ResizeScreenshotAreaLeft(currentMouseCoordinates);
@@ -115,7 +120,7 @@ namespace Hypersphere.ScreenshotArea
                 return;
             }
             // resize TOP-RIGHT
-            if (currentMouseCoordinates.Y < _resizingPoint.Y && currentMouseCoordinates.X > _resizingPoint.X)
+            if (currentMouseCoordinates.Y < _startResizingPoint.Y && currentMouseCoordinates.X > _startResizingPoint.X)
             {
                 ResizeScreenshotAreaUp(currentMouseCoordinates);
                 ResizeScreenshotAreaRight(currentMouseCoordinates);
@@ -123,7 +128,7 @@ namespace Hypersphere.ScreenshotArea
                 return;
             }
             // resize BOTTOM-RIGHT
-            if (currentMouseCoordinates.Y > _resizingPoint.Y && currentMouseCoordinates.X > _resizingPoint.X)
+            if (currentMouseCoordinates.Y > _startResizingPoint.Y && currentMouseCoordinates.X > _startResizingPoint.X)
             {
                 ResizeScreenshotAreaDown(currentMouseCoordinates);
                 ResizeScreenshotAreaRight(currentMouseCoordinates);
@@ -131,7 +136,7 @@ namespace Hypersphere.ScreenshotArea
                 return;
             }
             // resize BOTTOM-LEFT
-            if (currentMouseCoordinates.Y > _resizingPoint.Y && currentMouseCoordinates.X < _resizingPoint.X)
+            if (currentMouseCoordinates.Y > _startResizingPoint.Y && currentMouseCoordinates.X < _startResizingPoint.X)
             {
                 ResizeScreenshotAreaDown(currentMouseCoordinates);
                 ResizeScreenshotAreaLeft(currentMouseCoordinates);
@@ -301,7 +306,7 @@ namespace Hypersphere.ScreenshotArea
             if (_isLeftMouseButtonPressedOnMainGrid == true && screenshotAreaGrid.ActualWidth <= 0 && screenshotAreaGrid.ActualHeight <= 0)
             {               
                 Point previousMouseCoordinates = _mouseCoordinates.GetPreviousMouseCoordinates();
-                _resizingPoint = previousMouseCoordinates;
+                _startResizingPoint = previousMouseCoordinates;
 
                 rdUp.Height = new GridLength((previousMouseCoordinates.Y));
                 rdDown.Height = new GridLength((_primaryScreenHeight - previousMouseCoordinates.Y));
@@ -352,7 +357,15 @@ namespace Hypersphere.ScreenshotArea
 
             if (!_isScreenshotAreaResizing)
             {
+                _endResizingPoint = _mouseCoordinates.GetCurrentMouseCoordinates();
+
                 _screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
+                System.Drawing.Size size = new System.Drawing.Size(Convert.ToInt32(screenshotAreaGrid.ActualWidth), Convert.ToInt32(screenshotAreaGrid.ActualHeight));
+                _screenshotAreaSize.SetPrintscreenSize(size);
+                _screenshotAreaSize.SetSourceY(Convert.ToInt32(rdUp.ActualHeight));
+                _screenshotAreaSize.SetSourceX(Convert.ToInt32(cdLeft.ActualWidth));
+                //_screenshotAreaSize.SetDestinationY(Convert.ToInt32(_endResizingPoint.Y));
+                //_screenshotAreaSize.SetDestinationX(Convert.ToInt32(_endResizingPoint.X));
             }
         }
         private void screenshotAreaGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -432,6 +445,9 @@ namespace Hypersphere.ScreenshotArea
         {
             _screenshotAreaControl.IsDoExistAndHide();
             _screenshotAreaControl.CreateAndAddOrShow(screenshotAreaGrid, paintAndUserControlsCanvas, rdUp, rdDown, cdLeft, cdRight);
+
+            System.Drawing.Size size = new System.Drawing.Size(Convert.ToInt32(screenshotAreaGrid.ActualWidth), Convert.ToInt32(screenshotAreaGrid.ActualHeight));
+            _screenshotAreaSize.SetPrintscreenSize(size);
         }
         #endregion Event_handlers
     }

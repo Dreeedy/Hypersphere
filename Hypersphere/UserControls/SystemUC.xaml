@@ -17,7 +17,8 @@
                ToolTip="Копировать (CTRL + C)"
                Source="/Resource/Icons/copy_32x32_disabled.png"
                MouseEnter="copyImage_MouseEnter"
-               MouseLeave="copyImage_MouseLeave" />
+               MouseLeave="copyImage_MouseLeave"
+               PreviewMouseLeftButtonUp="copyImage_PreviewMouseLeftButtonUp" />
         <Image x:Name="saveImage"
                Height="32"
                Width="32"
