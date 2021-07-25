@@ -32,6 +32,7 @@ namespace Hypersphere
             if (!InstanceCheck())
             {
                 Application.Current.Shutdown();
+                return;
             }
 
             // создаем значок уведомления (это ресурс, объявленный в NotifyIconResources.xaml
@@ -45,6 +46,7 @@ namespace Hypersphere
             {
                 PerformRegisterHotkeyCtrlAndPrintScreen();
                 PerformRegisterHotKeyEscape();
+                PerformRegisterHotKeyCtrlAndC();
             });
         }
 
@@ -63,41 +65,61 @@ namespace Hypersphere
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     // чтобы закрывать если окно уже было открыто
-                    if (_screenshotWindow != null)
-                    {
-                        _screenshotWindow.Close();
-                    }
-                    _screenshotWindow = new ScreenshotWindow();
-                    _screenshotWindow.Show();
-                });                
+                    CloseScreenshotWindow();
 
-                _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer("A:\\myScreenshots\\",
-                    "myImage",
-                    System.Drawing.Imaging.ImageFormat.Png));
-                //keyboardHookManager.NotityScreenPhotographer(); // сделать это но кнопку копировать
+                    _screenshotWindow = new ScreenshotWindow();
+                    _screenshotWindow.Show();                    
+                });              
 
                 Debug.WriteLine("CTRL + PRINT_SCREEN detected");
             });
         }
         private static void PerformRegisterHotKeyEscape()
         {
-            // VK _ ESCAPE - 0x1B - ESC key
+            // VK_ESCAPE - 0x1B - ESC key
             _keyboardHookManager.RegisterHotkey(0x1B, () =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (_screenshotWindow != null)
+                    if (_screenshotWindow != null && _screenshotWindow.IsActive)
                     {
-                        _screenshotWindow.Close();
-                    }
-                    else
-                    {
-                        return;
-                    }
+                        CloseScreenshotWindow();
+                    }                    
                 });                
 
                 Debug.WriteLine("ESC detected");
             });
+        }
+        private static void PerformRegisterHotKeyCtrlAndC()
+        {
+            // 0x43 - C key
+            _keyboardHookManager.RegisterHotkey(ModifierKeys.Control, 0x43, () =>
+            {              
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (_screenshotWindow != null && _screenshotWindow.IsActive)
+                    {
+                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer("A:\\myScreenshots\\",                            
+                            System.Drawing.Imaging.ImageFormat.Png));
+
+                        _keyboardHookManager.NotityScreenPhotographer();
+
+                        CloseScreenshotWindow();
+                        return;
+                    }                    
+                });
+
+                Debug.WriteLine("CTRL + C detected");
+            });
+        }
+        private static void CloseScreenshotWindow()
+        {
+            if (_screenshotWindow != null)
+            {
+                _screenshotWindow.Close();
+                _screenshotWindow = null;
+                return;
+            }
         }
 
         private static bool InstanceCheck()

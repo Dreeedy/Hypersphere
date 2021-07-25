@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Hypersphere
 {
@@ -23,7 +25,6 @@ namespace Hypersphere
 
         private string _path;
         private System.Drawing.Imaging.ImageFormat _imageFormat;
-        private string _imageName;
 
         private ScreenshotAreaSize _screenshotAreaSize;
         #endregion Private_Fields
@@ -37,14 +38,12 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public ScreenPhotographer(string path, string imageName, System.Drawing.Imaging.ImageFormat imageFormat)
+        public ScreenPhotographer(string path, System.Drawing.Imaging.ImageFormat imageFormat)
         {
             _path = path;
             _imageFormat = imageFormat;
-            _imageName = imageName;
 
             _screenshotAreaSize = new ScreenshotAreaSize();
-            // TODO: передавать в конструктор размер области для скриншота
             // TODO: % качества в котором нужно сохранить изображение
             // TODO: формат изобаржения
             // TODO: передать путь, куда сохранить изображение
@@ -55,17 +54,30 @@ namespace Hypersphere
             {
                 return;
             }
-            TakeScreenshotAndSave();
+            TakeTakeScreenshotAndAddToClipboard();
         }
         #endregion Public_Methods
 
 
 
         #region Private_Methods
-        private void TakeScreenshotAndSave()
+        /// <summary>
+        /// Добавляет screenshot в буфер обмена, не сохраняя на компьютер
+        /// </summary>
+        private void TakeTakeScreenshotAndAddToClipboard()
         {
             TakeScreenshot();
-            SaveScreenshot();
+            AddScreenshotToClipboard();
+
+            DisposeGraphic();
+        }
+        // TODO: вызов этой функции на диалог типо выбор папки куда сохранить
+        private void TakeScreenshotAndSaveToFolder()
+        {
+            TakeScreenshot();
+            SaveScreenshotToFolder();
+
+            DisposeGraphic();
         }
         private void TakeScreenshot()
         {
@@ -73,23 +85,54 @@ namespace Hypersphere
             int sourceY = _screenshotAreaSize.GetSourceY();
             int sourceX = _screenshotAreaSize.GetSourceX();
 
-            // TODO: сделать вызов функции или по нажатию кнопку или комбинации клавиш ( копировать )
             _printscreen = new Bitmap(size.Width, size.Height);
             _graphics = Graphics.FromImage(_printscreen);
             _graphics.CopyFromScreen(sourceX, sourceY, 0, 0, _printscreen.Size);
-            _graphics.Dispose();
         }
-        private void SaveScreenshot()
+        private void AddScreenshotToClipboard()
         {
-            string imageExtension = ".png";
+            Clipboard.Clear();
+            Clipboard.SetImage(ConvertBitmap(_printscreen));        
+        }
+        private BitmapSource ConvertBitmap(Bitmap bitmap)
+        {
+            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap
+                (
+                    bitmap.GetHbitmap(),
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions()
+                );
+
+            return bitmapSource;
+        }
+        private void SaveScreenshotToFolder()
+        {
+            string imageName = GenerateUniquleName();
+            string imageExtension = DefineExtension();
+            _printscreen.Save($"{_path}{imageName}{imageExtension}", _imageFormat);
+        }
+        private string GenerateUniquleName()
+        {
+            Guid guid = Guid.NewGuid();
+            string uniquleName = guid.ToString();
+            return uniquleName;
+        }
+        private string DefineExtension()
+        {
+            string imageExtension = "";
             if (_imageFormat == System.Drawing.Imaging.ImageFormat.Png)
             {
                 imageExtension = ".png";
             }
-            // png ярче чем jpeg
-            // ImageFormat - содержит множество других форматов
-            _printscreen.Save($"{_path}{_imageName}{imageExtension}", _imageFormat);
+            return imageExtension;
+        }
+        private void DisposeGraphic()
+        {
+            _graphics.Dispose();
             _printscreen.Dispose();
+            _graphics = null;
+            _printscreen = null;
         }
         #endregion Private_Methods
 
