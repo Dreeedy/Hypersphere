@@ -45,7 +45,7 @@ namespace Hypersphere
         {
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
-            _path.StrokeThickness = 16;
+            _path.StrokeThickness = SelectedBrushThickness.MARKER_STROKE_THICKNESS;
             _path.Opacity = 0.30;
 
             _geometryGroup = new GeometryGroup();

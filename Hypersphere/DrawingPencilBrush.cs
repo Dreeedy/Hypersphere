@@ -43,7 +43,7 @@ namespace Hypersphere
         {
             _path = new Path();
             _path.Stroke = _selectedColor.GetSelectedOrDefaultSolidColorBrush();
-            _path.StrokeThickness = 2;
+            _path.StrokeThickness = SelectedBrushThickness.STROKE_THICKNESS;
 
             _geometryGroup = new GeometryGroup();
             _path.Data = _geometryGroup;
