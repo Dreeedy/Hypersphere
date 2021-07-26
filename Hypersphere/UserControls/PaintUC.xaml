@@ -71,7 +71,11 @@
                Margin="1"
                ToolTip="Цвет"               
                PreviewMouseUp="colorImage_PreviewMouseUp"
-                   Fill="Red"></Rectangle>
+               Fill="Red"
+               RadiusX="7"
+               RadiusY="7">
+            
+        </Rectangle>
         <Image x:Name="undoImage"
                Height="32"
                Width="32"
