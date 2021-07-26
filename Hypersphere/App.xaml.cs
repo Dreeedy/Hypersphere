@@ -102,7 +102,7 @@ namespace Hypersphere
                 {
                     if (_screenshotWindow != null && _screenshotWindow.IsActive)
                     {
-                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer());
+                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer(_screenshotWindow));
 
                         _keyboardHookManager.NotityScreenPhotographerTakeScreenshotAndAddToClipboard();
 
@@ -123,7 +123,7 @@ namespace Hypersphere
                 {
                     if (_screenshotWindow != null && _screenshotWindow.IsActive)
                     {
-                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer());
+                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer(_screenshotWindow));
 
                         _keyboardHookManager.NotityScreenPhotographerTakeScreenshotAndSaveToFolder();
 

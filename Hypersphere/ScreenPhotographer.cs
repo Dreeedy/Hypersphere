@@ -25,6 +25,7 @@ namespace Hypersphere
 
         private ScreenshotAreaSize _screenshotAreaSize;
         private ImageSaveFileDialog _imageSaveFileDialog;
+        private Window _screenshotWindow;
         #endregion Private_Fields
 
 
@@ -36,10 +37,11 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public ScreenPhotographer()
+        public ScreenPhotographer(Window screenshotWindow)
         {
             _screenshotAreaSize = new ScreenshotAreaSize();
             _imageSaveFileDialog = new ImageSaveFileDialog();
+            _screenshotWindow = screenshotWindow;
             // TODO: % качества в котором нужно сохранить изображение
             // TODO: формат изобаржения
             // TODO: передать путь, куда сохранить изображение
@@ -61,6 +63,14 @@ namespace Hypersphere
             SaveScreenshotToFolder();
 
             DisposeGraphic();
+        }
+        public void CloseScreenshotWindow(Window window)
+        {
+            if (window != null)
+            {
+                window.Close();
+                window = null;
+            }
         }
         #endregion Public_Methods
 
