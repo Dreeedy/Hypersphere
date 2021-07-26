@@ -9,7 +9,7 @@ namespace Hypersphere
     static class SelectedBrushThickness
     {
         #region Public_Static_Constants
-        public const double STROKE_THICKNESS = 2.0;
+        public const double STROKE_THICKNESS = 4.0;
         public const double MARKER_STROKE_THICKNESS = 16.0;
         #endregion Public_Static_Constants
 
