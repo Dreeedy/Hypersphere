@@ -40,7 +40,14 @@ namespace Hypersphere
         public KeybindStruct(IEnumerable<ModifierKeys> modifiers, int virtualKeyCode, Guid? identifier = null)
         {
             this.VirtualKeyCode = virtualKeyCode;
-            this.Modifiers = new List<ModifierKeys>(modifiers);
+            try
+            {
+                this.Modifiers = new List<ModifierKeys>(modifiers);// TODO: fix: тут какой-то страшный баг
+            }
+            catch (Exception)
+            {
+
+            }            
             this.Identifier = identifier;
         }
         public bool Equals(KeybindStruct other)
