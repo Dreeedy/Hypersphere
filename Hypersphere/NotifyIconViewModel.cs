@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Hypersphere.UserControls;
 
 namespace Hypersphere
 {
@@ -23,7 +24,7 @@ namespace Hypersphere
 
 
         #region Private_Fields
-
+        SettingsMenuUC _settingsMenuUC;
         #endregion Private_Fields
 
 
@@ -75,6 +76,23 @@ namespace Hypersphere
             get
             {
                 return new DelegateCommand { CommandAction = () => Application.Current.Shutdown() };
+            }
+        }
+        /// <summary>
+        /// Открывает панель настроек
+        /// </summary>
+        public ICommand ShowSettingsCommand
+        {
+            get// TODO: меню настроек
+            {
+                return new DelegateCommand
+                {                    
+                    CommandAction = () =>
+                    {
+                        _settingsMenuUC = new SettingsMenuUC();
+                        _settingsMenuUC.Show();                      
+                    }
+                };
             }
         }
         #endregion Public_Methods

@@ -1,0 +1,43 @@
+﻿<Window x:Class="Hypersphere.UserControls.SettingsMenuUC"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hypersphere.UserControls"
+        mc:Ignorable="d"
+        Title="Настройки" Height="200" Width="420"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Closed="Window_Closed">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Горячие клавиши">
+                <Grid Background="#FFE5E5E5" />
+            </TabItem>
+            <TabItem Header="Автозапуск">
+                <Grid Background="#FFE5E5E5"
+                      Loaded="Grid_Loaded">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="automaticProgramStartCheckBox"
+                                      FontSize="14">Автоматически запускать программу при старте Windows</CheckBox>
+                        </Grid>
+                    </StackPanel>
+                    <Button Grid.Row="1"
+                            FontSize="14"
+                            Click="Button_Click">Сохранить</Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

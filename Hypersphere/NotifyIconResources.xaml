@@ -9,12 +9,14 @@
     -->
     <ContextMenu x:Shared="false"
                  x:Key="SysTrayMenu">
-        <MenuItem Header="Show Window"
+        <!--<MenuItem Header="Show Window"
                   Command="{Binding ShowWindowCommand}" />
         <MenuItem Header="Hide Window"
-                  Command="{Binding HideWindowCommand}" />
+                  Command="{Binding HideWindowCommand}" />-->
+        <MenuItem Header="Настройки..."
+                  Command="{Binding ShowSettingsCommand}" />
         <Separator />
-        <MenuItem Header="Exit"
+        <MenuItem Header="Выход"
                   Command="{Binding ExitApplicationCommand}" />
     </ContextMenu>
 
@@ -22,7 +24,6 @@
     <tb:TaskbarIcon x:Key="NotifyIcon"
                     IconSource="/icon_ico_32x32.ico"
                     ToolTipText="Double-click for window, right-click for menu"
-                    DoubleClickCommand="{Binding ShowWindowCommand}"
                     ContextMenu="{StaticResource SysTrayMenu}">
 
         <!-- Самостоятельное назначение контекста данных (также может быть выполнено программно) -->
