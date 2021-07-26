@@ -32,6 +32,7 @@ namespace Hypersphere.UserControls
 
         #region Private_Fields
         private ScreenshotWindow _screenshotWindow;
+        private ImageSaveFileDialog _selectedFolder;
 
         private Image _image;
         #endregion Private_Fields
@@ -48,7 +49,9 @@ namespace Hypersphere.UserControls
         public SystemUC(ScreenshotWindow sw)
         {
             InitializeComponent();
+
             _screenshotWindow = sw;
+            _selectedFolder = new ImageSaveFileDialog();
         }
         #endregion Public_Methods
 
@@ -103,6 +106,11 @@ namespace Hypersphere.UserControls
         private void copyImage_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             
+        }
+
+        private void saveImage_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //_selectedFolder.SaveImageToFolder();
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     public interface IScreenPhotographer
     {
-        public void KeyCombinationPressed();
+        public void TakeScreenshotAndAddToClipboard();
+        public void TakeScreenshotAndSaveToFolder();
     }
 }

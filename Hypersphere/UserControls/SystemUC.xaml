@@ -26,7 +26,8 @@
                ToolTip="Сохранить (CTRL + S)"
                Source="/Resource/Icons/save_32x32_disabled.png"
                MouseEnter="saveImage_MouseEnter"
-               MouseLeave="saveImage_MouseLeave" />
+               MouseLeave="saveImage_MouseLeave"
+               PreviewMouseLeftButtonUp="saveImage_PreviewMouseLeftButtonUp" />
         <Image x:Name="closeImage" 
             Height="32"
                Width="32"

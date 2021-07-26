@@ -47,7 +47,10 @@ namespace Hypersphere
                 PerformRegisterHotkeyCtrlAndPrintScreen();
                 PerformRegisterHotKeyEscape();
                 PerformRegisterHotKeyCtrlAndC();
+                PerformRegisterHotKeyCtrlAndS();
             });
+
+            // TODO: refactor class
         }
 
 
@@ -99,10 +102,9 @@ namespace Hypersphere
                 {
                     if (_screenshotWindow != null && _screenshotWindow.IsActive)
                     {
-                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer("A:\\myScreenshots\\",                            
-                            System.Drawing.Imaging.ImageFormat.Png));
+                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer());
 
-                        _keyboardHookManager.NotityScreenPhotographer();
+                        _keyboardHookManager.NotityScreenPhotographerTakeScreenshotAndAddToClipboard();
 
                         CloseScreenshotWindow();
                         return;
@@ -110,6 +112,27 @@ namespace Hypersphere
                 });
 
                 Debug.WriteLine("CTRL + C detected");
+            });
+        }
+        private static void PerformRegisterHotKeyCtrlAndS()
+        {
+            // 0x53 - S key
+            _keyboardHookManager.RegisterHotkey(ModifierKeys.Control, 0x53, () =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (_screenshotWindow != null && _screenshotWindow.IsActive)
+                    {
+                        _keyboardHookManager.SetScreenPhotographer(new ScreenPhotographer());
+
+                        _keyboardHookManager.NotityScreenPhotographerTakeScreenshotAndSaveToFolder();
+
+                        CloseScreenshotWindow();
+                        return;
+                    }
+                });
+
+                Debug.WriteLine("CTRL + S detected");
             });
         }
         private static void CloseScreenshotWindow()
@@ -121,7 +144,6 @@ namespace Hypersphere
                 return;
             }
         }
-
         private static bool InstanceCheck()
         {
             bool isNew;

@@ -23,10 +23,8 @@ namespace Hypersphere
         private Bitmap _printscreen;
         private Graphics _graphics;
 
-        private string _path;
-        private System.Drawing.Imaging.ImageFormat _imageFormat;
-
         private ScreenshotAreaSize _screenshotAreaSize;
+        private ImageSaveFileDialog _imageSaveFileDialog;
         #endregion Private_Fields
 
 
@@ -38,33 +36,18 @@ namespace Hypersphere
 
 
         #region Public_Methods
-        public ScreenPhotographer(string path, System.Drawing.Imaging.ImageFormat imageFormat)
+        public ScreenPhotographer()
         {
-            _path = path;
-            _imageFormat = imageFormat;
-
             _screenshotAreaSize = new ScreenshotAreaSize();
+            _imageSaveFileDialog = new ImageSaveFileDialog();
             // TODO: % качества в котором нужно сохранить изображение
             // TODO: формат изобаржения
             // TODO: передать путь, куда сохранить изображение
         }
-        public void KeyCombinationPressed()
-        {
-            if (_path == null || _imageFormat == null)
-            {
-                return;
-            }
-            TakeTakeScreenshotAndAddToClipboard();
-        }
-        #endregion Public_Methods
-
-
-
-        #region Private_Methods
         /// <summary>
         /// Добавляет screenshot в буфер обмена, не сохраняя на компьютер
         /// </summary>
-        private void TakeTakeScreenshotAndAddToClipboard()
+        public void TakeScreenshotAndAddToClipboard()
         {
             TakeScreenshot();
             AddScreenshotToClipboard();
@@ -72,13 +55,18 @@ namespace Hypersphere
             DisposeGraphic();
         }
         // TODO: вызов этой функции на диалог типо выбор папки куда сохранить
-        private void TakeScreenshotAndSaveToFolder()
+        public void TakeScreenshotAndSaveToFolder()
         {
             TakeScreenshot();
             SaveScreenshotToFolder();
 
             DisposeGraphic();
         }
+        #endregion Public_Methods
+
+
+
+        #region Private_Methods
         private void TakeScreenshot()
         {
             System.Drawing.Size size = _screenshotAreaSize.GetPrintscreenSize();
@@ -108,9 +96,11 @@ namespace Hypersphere
         }
         private void SaveScreenshotToFolder()
         {
-            string imageName = GenerateUniquleName();
-            string imageExtension = DefineExtension();
-            _printscreen.Save($"{_path}{imageName}{imageExtension}", _imageFormat);
+            string path = _imageSaveFileDialog.SaveImageToFolder();
+            if (path != "")
+            {
+                _printscreen.Save(path);
+            }            
         }
         private string GenerateUniquleName()
         {
@@ -120,11 +110,12 @@ namespace Hypersphere
         }
         private string DefineExtension()
         {
-            string imageExtension = "";
-            if (_imageFormat == System.Drawing.Imaging.ImageFormat.Png)
+            // TODO: будет использовать в меню
+            string imageExtension = ".png";
+/*            if (_imageFormat == System.Drawing.Imaging.ImageFormat.Png)
             {
                 imageExtension = ".png";
-            }
+            }*/
             return imageExtension;
         }
         private void DisposeGraphic()

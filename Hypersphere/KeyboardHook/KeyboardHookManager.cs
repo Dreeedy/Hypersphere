@@ -185,7 +185,6 @@ namespace Hypersphere
                 throw new HotkeyNotRegisteredException();
             }   
         }
-
         public void SetScreenPhotographer(IScreenPhotographer sp)
         {
             if (screenPhotographer == null)
@@ -193,10 +192,13 @@ namespace Hypersphere
                 this.screenPhotographer = sp;
             }            
         }
-
-        public void NotityScreenPhotographer()
+        public void NotityScreenPhotographerTakeScreenshotAndAddToClipboard()
         {
-            screenPhotographer.KeyCombinationPressed();
+            screenPhotographer.TakeScreenshotAndAddToClipboard();
+        }
+        public void NotityScreenPhotographerTakeScreenshotAndSaveToFolder()
+        {
+            screenPhotographer.TakeScreenshotAndSaveToFolder();
         }
         #endregion
 
